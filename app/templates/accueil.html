@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Accueil</title>
+  </head>
+  <body>
+    <h1>Liste des animaux</h1>
+    <ul id="liste-animaux"></ul>
+
+    <script>
+      fetch("/animaux")
+        .then((response) => response.json())
+        .then((data) => {
+          data.forEach((animal) => {
+            const h1 = document.createElement("h1");
+            h1.textContent = animal[1]; // ← remplacer [1] par le bon index
+            document.body.appendChild(h1);
+          });
+        })
+        .catch((err) => console.error("Erreur :", err));
+    </script>
+  </body>
+</html>
