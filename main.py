@@ -11,5 +11,9 @@ def recup_animaux():
 def AffichePage():
     return render_template("app/templates/accueil.html")
 
+@main.route('/Recupanimaux')
+def recup_animaux():
+    return jsonify(Affiche_Animal())
+
 if __name__ == '__main__':
     main.run(debug=True)
