@@ -9,16 +9,15 @@
     <ul id="liste-animaux"></ul>
 
     <script>
-      fetch("/animaux")
+      fetch("/Recupanimaux")
         .then((response) => response.json())
         .then((data) => {
           data.forEach((animal) => {
             const h1 = document.createElement("h1");
-            h1.textContent = animal[1]; // ← remplacer [1] par le bon index
+            h1.textContent = animal[1];
             document.body.appendChild(h1);
           });
         })
-        .catch((err) => console.error("Erreur :", err));
     </script>
   </body>
 </html>
