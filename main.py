@@ -3,13 +3,10 @@ from app.services.accueil_service import Affiche_Animal
 
 main= Flask(__name__, template_folder='app/templates')
 
-@main.route('/')
-def recup_animaux():
-    return jsonify(Affiche_Animal())
 
-@main.route('/Recupanimaux')
+@main.route('/')
 def AffichePage():
-    return render_template("app/templates/accueil.html")
+    return render_template("accueil.html")
 
 @main.route('/Recupanimaux')
 def recup_animaux():
