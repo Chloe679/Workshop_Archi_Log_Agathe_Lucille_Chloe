@@ -20,15 +20,7 @@
     <ul id="liste-animaux"></ul>
 
     <script>
-      fetch("/Recupanimaux")
-        .then((response) => response.json())
-        .then((data) => {
-          data.forEach((animal) => {
-            const h1 = document.createElement("h1");
-            h1.textContent = animal[2];
-            document.body.appendChild(h1);
-          });
-        })
+ 
     </script>
   </body>
 </html>

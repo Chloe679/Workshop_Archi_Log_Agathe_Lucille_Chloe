@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-from app.services.accueil_service import Affiche_Animal
+from app.services.animal_service import Affiche_Animal, get_unique_animal
 
 main= Flask(__name__)
 
