@@ -28,7 +28,7 @@ def AffichePageConnexion():
         utilisateur = estCeQueLeBougExiste(pseudo, mdp) #Vérifie si l'utilisateur est dans la BDD
 
         if utilisateur is not None: #
-            session['nom_utilisateur'] = utilisateur[0]
+            session['nom_utilisateur'] = utilisateur[1]
             print(session)
             return redirect(url_for('AffichePageAccueil'))
         else :
@@ -38,6 +38,11 @@ def AffichePageConnexion():
         if 'nom_utilisateur' in session:
             return redirect(url_for('AffichePageAccueil'))
         return render_template("user/connexion.html")
+    
+@main.route('/deconnexion')
+def deconnexion():
+    session.pop('nom_utilisateur', None) #None pour que si on ne trouve pas le nom de l'utilasateur, ça ne créé pas de bug
+    return redirect(url_for('AffichePageConnexion'))
 
 @main.route('/Recupanimaux')
 def recup_animaux():

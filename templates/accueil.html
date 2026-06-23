@@ -11,7 +11,11 @@
 					<li><a href="/">Accueil</a></li>
 					<li><a href="/animaux"">Animaux</a></li>
 					<li><a href="/activites">Activites</a></li>
-					<li><a href="/connexion">Connexion</a></li>
+          {% if 'nom_utilisateur' in session %}
+            	<li><a href="/deconnexion">déconnection</a></li>
+          {% else %}
+					  <li><a href="/connexion">Connexion</a></li>
+          {% endif %}
 				</ul>
 			</nav>
   </header>
