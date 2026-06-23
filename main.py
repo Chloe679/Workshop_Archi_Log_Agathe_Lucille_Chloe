@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, render_template
 from app.services.accueil_service import Affiche_Animal
 
-main = Flask(__name__, template_folder='app/templates')
+main= Flask(__name__, template_folder='app/templates')
+
 
 @main.route('/')
 def AffichePageAccueil():
