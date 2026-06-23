@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/generalstyle.css">
+    <title>Accueil</title>
+  </head>
+  <header>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/animaux"">Animaux</a></li>
+            <li><a href="/activites">Activites</a></li>
+            {% if 'nom_utilisateur' in session %}
+            	<li><a href="/compteUtilisateur">Mon Compte</a></li>
+            {% else %}
+                <li><a href="/connexion">Connexion</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+  </header>
+  <body>
+      <h1>Bonjour {{ session.get('nom_utilisateur') }} !</h1>
+      <h2>Voici vos informations</h2>
+      <p>Nom : {{ session.get('nom_utilisateur') }}</p>
+      <p>Prénom : {{ session.get('prenom_utilisateur') }}</p>
+      <p>Pseudo : {{ session.get('pseudo_utilisateur') }}</p>
+      <a href="/deconnexion">Se déconnecter</a>
+  </body>
+</html>

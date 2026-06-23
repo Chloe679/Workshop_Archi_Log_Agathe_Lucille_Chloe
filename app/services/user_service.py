@@ -1,13 +1,15 @@
 from app.models.user_model import RecupererLesInfosDuBoug
 
 def estCeQueLeBougExiste(pseudoDuBoug, mdpDuBoug):
-    utilisateurs = RecupererLesInfosDuBoug(pseudoDuBoug)
+    utilisateur = RecupererLesInfosDuBoug(pseudoDuBoug)
 
-    for utilisateur in utilisateurs:
-        pseudo = utilisateur[1]
-        mot_de_passe = utilisateur[2]
+    if utilisateur is None:
+        return None
 
-        if pseudo == pseudoDuBoug and mot_de_passe == mdpDuBoug:
-            return utilisateur
+    pseudo = utilisateur[1]
+    mot_de_passe = utilisateur[2]
 
-    return None 
+    if pseudo == pseudoDuBoug and mot_de_passe == mdpDuBoug:
+        return utilisateur
+
+    return None
