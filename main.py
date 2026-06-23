@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal
+from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal
 
 main= Flask(__name__)
 
@@ -37,6 +37,10 @@ def recup_unique_animal(animal_id):
 @main.route('/recup_propri_animal/<int:animal_id>')
 def recup_propri_animal(animal_id):
     return jsonify(find_user_of_animal(animal_id))
+
+@main.route('/recup_comm_animal/<int:animal_id>')
+def recup_comm_animal(animal_id):
+    return jsonify(get_comm_animal(animal_id))
 
 if __name__ == '__main__':
     main.run(debug=True)

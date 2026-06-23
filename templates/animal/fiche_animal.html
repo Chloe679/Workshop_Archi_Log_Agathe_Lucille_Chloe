@@ -79,6 +79,15 @@
           pro.textContent = data[0];
           document.body.appendChild(pro);
         });
+
+        //AFFICHE COMM
+        fetch(`/recup_comm_animal/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+            const comm = document.createElement("h1");
+            comm.textContent = data[0];
+            document.body.appendChild(comm);
+        });
     </script>
   </body>
 </html>

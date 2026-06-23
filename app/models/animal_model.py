@@ -21,3 +21,11 @@ def find_user_of_animal(animal_id):
     mycursor.execute('''SELECT prenom_user FROM user JOIN animal ON animal.id_user=user.id_user WHERE id_animal = %s ''', (animal_id,)
     )
     return mycursor.fetchone()
+
+#afficher les commentaires associés à l'animal
+def find_commentaire(animal_id):
+    mydb = get_connection()
+    mycursor= mydb.cursor()
+    mycursor.execute('''SELECT commentaire FROM commentaire JOIN animal ON animal.id_animal=commentaire.id_animal WHERE animal.id_animal  = %s ''', (animal_id,)
+    )
+    return mycursor.fetchone()
