@@ -22,63 +22,63 @@
     <ul id="liste-caractéristique"></ul>
 
     <script>
-            const id = {{ id }};
-            //possible car id transmis avec la route
-            fetch(`/Recup_unique_animal/${id}`)
-              .then((response) => response.json())
-              .then((data) => {
+       const id = {{ id }}; // erreur qui marche quand même (vscode ne détecte pas)
+      //possible car id transmis avec la route
+      fetch(`/Recup_unique_animal/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const nom = document.createElement("h1");
+          nom.textContent = data[1];
+          document.body.appendChild(nom);
 
-                const nom = document.createElement("h1");
-                nom.textContent = data[1];
-                document.body.appendChild(nom);
+          //AGE
+          const age = document.createElement("h1");
+          age.textContent = data[2];
+          document.body.appendChild(age);
+          //ESPECE
+          const espece = document.createElement("h1");
+          espece.textContent = data[3];
+          document.body.appendChild(espece);
+          //IMAGE
+          const image = document.createElement("img");
+          image.src = data[4]; // URL de l'image
+          image.style.width = "200px";
+          document.body.appendChild(image);
 
-                //AGE
-                  const age = document.createElement("h1");
-                  age.textContent = data[2];
-                  document.body.appendChild(age);
-      //ESPECE
-                  const espece = document.createElement("h1");
-                  espece.textContent = data[3];
-                  document.body.appendChild(espece);
-      //IMAGE
-                  const image = document.createElement("img");
-                  image.src = data[4]; // URL de l'image
-                  image.style.width = "200px";
-                  document.body.appendChild(image);
+          //DANGER
+          const label = document.createElement("label");
+          label.textContent = "Dangerosité: ";
 
-      //DANGER
-                  const label = document.createElement("label");
-                  label.textContent = "Dangerosité: ";
+          const progress = document.createElement("progress");
+          progress.max = 5; // danger sur 5
+          progress.value = data[7];
+          label.appendChild(progress);
+          document.body.appendChild(label);
 
-                  const progress = document.createElement("progress");
-                  progress.max = 5; // danger sur 5
-                  progress.value = data[7];
-                  label.appendChild(progress);
-                  document.body.appendChild(label);
+          if (data[7] <= 1) {
+            progress.className = "faible";
+          } else if (data[7] <= 2) {
+            progress.className = "peu";
+          } else if (data[7] <= 4) {
+            progress.className = "moyen";
+          } else if (data[7] <= 3) {
+            progress.className = "eleve";
+          }
 
-                  if (data[7]<=1){
-                    progress.className = "faible";
-                  }
-                  else if (data[7]<=2){
-                    progress.className = "peu";
-                  }
-                  else if (data[7]<=4){
-                    progress.className = "moyen";
-                  }
-                  else if (data[7]<=3){
-                    progress.className = "eleve";
-                  }
+           const des = document.createElement("h1");
+          des.textContent = data[5];
+          document.body.appendChild(des);
+        }),
+          //DESCRIPTION
+        fetch(`/recup_propri_animal/${id}`)
+        .then((response) => response.json())
+        .then((data) =>{
 
-
-                //DESCRIPTION
-                  const des = document.createElement("h1");
-                  des.textContent = data[5];
-                  document.body.appendChild(des);
-
-
-
-
-              });
+          //PROPRIO
+          const pro = document.createElement("h1");
+          pro.textContent = data[0];
+          document.body.appendChild(pro);
+        });
     </script>
   </body>
 </html>

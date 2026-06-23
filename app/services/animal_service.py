@@ -1,4 +1,4 @@
-from app.models.animal_model import Affiche, find_by_id
+from app.models.animal_model import Affiche, find_by_id,find_user_of_animal
 
 def Affiche_Animal():
     resultat = Affiche()
@@ -6,3 +6,7 @@ def Affiche_Animal():
 
 def get_unique_animal(animal_id):
     return find_by_id(animal_id)
+
+def get_proprio_animal(animal_id):
+    return find_user_of_animal(animal_id)
+   
