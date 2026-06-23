@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/static/generalstyle.css">
+    <link rel="stylesheet" href="/static/accueil_animal.css">
     <title>Accueil animal</title>
   </head>
   <header>
@@ -16,6 +17,78 @@
     </nav>
   </header>
   <body>
+
+    
     <h1>Accueil animal</h1>
+
+    <h2>Liste des animaux</h2>
+    <ul id="liste-animaux"></ul>
+
+    <script>
+      fetch("/Recupanimaux")
+        .then((response) => response.json())
+        .then((data) => {
+          data.forEach((animal) => {
+//NOM
+            const nom = document.createElement("h1");
+            nom.textContent = animal[1]; 
+            document.body.appendChild(nom);
+//LIEN DYNAMIQUE
+      const lien = document.createElement("a");
+      lien.href = `/animal/${animal[0]}`; //on cree le lien animal/3 qui sera reçu par flask (cf route)
+      lien.textContent = animal[1];
+      document.body.appendChild(lien);
+//AGE
+            const age = document.createElement("h1");
+            age.textContent = animal[2];
+            document.body.appendChild(age);
+//ESPECE
+            const espece = document.createElement("h1");
+            espece.textContent = animal[3];
+            document.body.appendChild(espece);
+//IMAGE
+            const image = document.createElement("img");
+            image.src = animal[4]; // URL de l'image 
+            image.style.width = "200px"; 
+            document.body.appendChild(image);
+
+//DANGER
+            const label = document.createElement("label");
+            label.textContent = "Dangerosité: ";
+
+            const progress = document.createElement("progress");
+            progress.max = 5; // danger sur 5
+            progress.value = animal[7]; 
+            label.appendChild(progress);
+            document.body.appendChild(label);
+
+            if (animal[7]<=1){
+              progress.className = "faible";
+            }
+            else if (animal[7]<=2){
+              progress.className = "peu";
+            }
+            else if (animal[7]<=4){
+              progress.className = "moyen";
+            }
+            else if (animal[7]<=3){
+              progress.className = "eleve";
+            }
+
+
+          //DESCRIPTION
+            const des = document.createElement("h1");
+            des.textContent = animal[5];
+            document.body.appendChild(des);
+
+//COMMENTAIRES
+
+
+          });
+        })
+    </script>
+
   </body>
 </html>
+
+

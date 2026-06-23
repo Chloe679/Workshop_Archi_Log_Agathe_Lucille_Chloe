@@ -1,0 +1,17 @@
+/*curseur dangerosité*/
+
+progress.faible {
+  accent-color: green;
+}
+
+progress.peu {
+  accent-color: yellow;
+}
+
+progress.moyen {
+  accent-color: orange;
+}
+
+progress.eleve {
+  accent-color: red;
+}

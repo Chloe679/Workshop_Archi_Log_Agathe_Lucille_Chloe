@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/generalstyle.css" />
+    <link rel="stylesheet" href="/static/accueil_animal.css" />
+    <title>Accueil animal</title>
+  </head>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/animaux">Animaux</a></li>
+        <li><a href="/activites">Activites</a></li>
+        <li><a href="/connexion">Connexion</a></li>
+      </ul>
+    </nav>
+  </header>
+  <body>
+    <h1>Fiche animal</h1>
+
+    <ul id="liste-caractéristique"></ul>
+
+    <script>
+      fetch("/Recup_unique_animal/${id}")
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById("fiche").innerHTML = `
+        <h1>${animal.nom}</h1>
+        <img src="${animal.photo}" alt="${animal.nom}" />
+        <p>${animal.description}</p>
+      `;
+        });
+    </script>
+  </body>
+</html>
