@@ -1,7 +1,6 @@
 from config import get_connection
 from mysql.connector import Error
 
-
 def RecupererLesInfosDuBoug(pseudo):
     mydb = get_connection()
     mycursor= mydb.cursor()

@@ -16,6 +16,9 @@
 			</nav>
   </header>
   <body>
+    {% if 'nom_utilisateur' in session %}
+      <p>Bonjour {{ session['nom_utilisateur'] }} !</p>
+    {% endif %}
     <h1>Liste des animaux</h1>
     <ul id="liste-animaux"></ul>
 
