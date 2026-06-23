@@ -4,8 +4,20 @@ from app.services.accueil_service import Affiche_Animal
 main = Flask(__name__, template_folder='app/templates')
 
 @main.route('/')
-def AffichePage():
+def AffichePageAccueil():
     return render_template("accueil.html")
+
+@main.route('/activites')
+def AffichePageActivites():
+    return render_template("activite/accueil_activite.html")
+
+@main.route('/animaux')
+def AffichePageAnimaux():
+    return render_template("animal/accueil_animal.html")
+
+@main.route('/connexion')
+def AffichePageConnexion():
+    return render_template("user/connexion.html")
 
 @main.route('/Recupanimaux')
 def recup_animaux():
