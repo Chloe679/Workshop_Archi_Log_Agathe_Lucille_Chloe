@@ -28,7 +28,7 @@ def recup_animaux():
 
 @main.route('/animal/<int:animal_id>') #<int:animal_id> parmet de recup id de l'url
 def AffichePageUniqueAnimaux(animal_id):
-    return render_template("animal/fiche_animal.html")
+    return render_template("animal/fiche_animal.html", id=animal_id) #on donne l'id au template (pour utilser dans html)
 
 @main.route('/Recup_unique_animal/<int:animal_id>') #on appelera dans le html /Recup_unique_animal/<int:animal_id>
 def recup_unique_animal(animal_id):
