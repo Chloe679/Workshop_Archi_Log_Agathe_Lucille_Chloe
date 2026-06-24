@@ -111,7 +111,7 @@ def affiche_create_comm(animal_id):
     if request.method=='GET':
         return render_template("animal/fiche_animal.html", id=animal_id)
     try:
-        id_user_connecte= 1; #à changer
+        id_user_connecte= session['id_utilisateur']
         get_commentaire(
             commentaire= request.form.get("commentaire"),
             note=request.form.get("note"),
