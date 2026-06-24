@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, render_template,request, redirect, url_for, flash, session
-from app.services.accueil_service import Affiche_Animal
 from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire
 from app.services.activite_service import transferActivites, addActivite, getFicheActivite, transferAnimal, linkAnimal
 from app.services.user_service import estCeQueLeBougExiste
