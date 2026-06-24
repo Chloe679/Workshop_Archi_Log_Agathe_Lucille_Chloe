@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, redirect, request, flash, url_for, session
 from app.services.accueil_service import Affiche_Animal
-from app.services.activite_service import transferActivites, addActivite
+from app.services.activite_service import transferActivites, addActivite, getFicheActivite, transferAnimal, linkAnimal
 from app.services.user_service import estCeQueLeBougExiste
 
 main= Flask(__name__)
@@ -56,12 +56,12 @@ def AffichePageActivites():
 @main.route('/create_activite', methods=['GET', 'POST'])
 def AfficheCreateActivite():
     if request.method =='GET':
-        return render_template("activite/create_activite.html")
+        animaux = transferAnimal(session['id_utilisateur'])
+        return render_template("activite/create_activite.html", animaux=animaux)
     
     try:
 
-        id_user_connected = session['id_utilisateur']; #A remplacer avec l'id de l'utilisateur connecté quand on aura merge
-
+        id_user_connected = session['id_utilisateur']; 
         id_act = addActivite(
             titre_act = request.form.get("titre_act"),
             date_act = request.form.get("date_act"),
@@ -69,18 +69,33 @@ def AfficheCreateActivite():
             description_act = request.form.get("description_act"),
             url_image_act = request.form.get("url_image_act"),
             dangerosite_max_act = request.form.get("dangerosite_max_act"),
-            id_createur = id_user_connected
+            id_createur = session['id_utilisateur']
         )
+        animaux_selected = request.form.getlist("animaux")
+        for id_animal in animaux_selected :
+            linkAnimal(id_act, session['id_utilisateur'], id_animal)
+
         flash("Activité créée.", "success")
         return redirect(url_for('AffichePageActivites'))
     
     except ValueError as error:
         flash(str(error), "error")
-        return render_template("activite/create_activite.html")
+        animaux = transferAnimal(session['id_utilisateur'])
+        return render_template("activite/create_activite.html", animaux=animaux)
 
 @main.route('/animaux')
 def AffichePageAnimaux():
     return render_template("animal/accueil_animal.html")
+
+@main.route('/activites/<int:activite_id>') 
+def afficheFicheActivite(activite_id):
+    return render_template("activite/fiche_activite.html", id=activite_id) #on donne l'id au template (pour utilser dans html)
+
+@main.route('/Recup_fiche_activite/<int:activite_id>') 
+def recup_fiche_activite(activite_id):
+    return jsonify(getFicheActivite(activite_id))
+
+
 
 ######################################################## AUTRES ########################################################
 

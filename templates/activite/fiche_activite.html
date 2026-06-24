@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/generalstyle.css" />
+    <link rel="stylesheet" href="/static/accueil_animal.css" />
+    <title>Fiche activité</title>
+  </head>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/animaux">Animaux</a></li>
+        <li><a href="/activites">Activites</a></li>
+        <li><a href="/connexion">Connexion</a></li>
+      </ul>
+    </nav>
+  </header>
+  <body>
+    <h1>Fiche Activité</h1>
+
+    <script>
+        const id = {{ id }};
+      //console.log("id récupéré :", id);
+       fetch(`/Recup_fiche_activite/${id}`)
+         .then((response) => response.json())
+         .then((data) => {
+           console.log(data);
+
+           const titre = document.createElement("h1");
+           titre.textContent = data[1];
+           document.body.appendChild(titre);
+
+
+           const date = document.createElement("p");
+           date.textContent = data[2];
+           document.body.appendChild(date);
+
+
+           const lieu = document.createElement("p");
+           lieu.textContent = data[3];
+           document.body.appendChild(lieu);
+
+
+           const description = document.createElement("p");
+           description.textContent = data[4];
+           document.body.appendChild(description);
+
+           const image = document.createElement("img");
+           image.src = data[5]; // URL de l'image
+           image.style.width = "200px";
+           document.body.appendChild(image);
+
+           const dangerMax = document.createElement("p");
+           dangerMax.textContent = data[6];
+           document.body.appendChild(dangerMax);
+         })
+         ;
+    </script>
+  </body>
+</html>
