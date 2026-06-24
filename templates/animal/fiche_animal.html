@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/generalstyle.css" />
+    <link rel="stylesheet" href="/static/accueil_animal.css" />
+    <title>Accueil animal</title>
+  </head>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/animaux">Animaux</a></li>
+        <li><a href="/activites">Activites</a></li>
+        <li><a href="/connexion">Connexion</a></li>
+      </ul>
+    </nav>
+  </header>
+  <body>
+    <h1>Fiche animal</h1>
+
+    <ul id="liste-caractéristique"></ul>
+
+    <script>
+       const id = {{ id }}; // erreur qui marche quand même (vscode ne détecte pas)
+      //possible car id transmis avec la route
+      fetch(`/Recup_unique_animal/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const nom = document.createElement("h1");
+          nom.textContent = data[1];
+          document.body.appendChild(nom);
+
+          //AGE
+          const age = document.createElement("h1");
+          age.textContent = data[2];
+          document.body.appendChild(age);
+          //ESPECE
+          const espece = document.createElement("h1");
+          espece.textContent = data[3];
+          document.body.appendChild(espece);
+          //IMAGE
+          const image = document.createElement("img");
+          image.src = data[4]; // URL de l'image
+          image.style.width = "200px";
+          document.body.appendChild(image);
+
+          //DANGER
+          const label = document.createElement("label");
+          label.textContent = "Dangerosité: ";
+
+          const progress = document.createElement("progress");
+          progress.max = 5; // danger sur 5
+          progress.value = data[7];
+          label.appendChild(progress);
+          document.body.appendChild(label);
+
+          if (data[7] <= 1) {
+            progress.className = "faible";
+          } else if (data[7] <= 2) {
+            progress.className = "peu";
+          } else if (data[7] <= 4) {
+            progress.className = "moyen";
+          } else if (data[7] <= 3) {
+            progress.className = "eleve";
+          }
+
+           const des = document.createElement("h1");
+          des.textContent = data[5];
+          document.body.appendChild(des);
+        }),
+          //DESCRIPTION
+        fetch(`/recup_propri_animal/${id}`)
+        .then((response) => response.json())
+        .then((data) =>{
+
+          //PROPRIO
+          const pro = document.createElement("h1");
+          pro.textContent = data[0];
+          document.body.appendChild(pro);
+        });
+
+
+        //AFFICHE COMM
+        fetch(`/recup_comm_animal/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          data.forEach((commentaire) => {
+            const comm = document.createElement("h1");
+            comm.textContent =  commentaire;
+            document.body.appendChild(comm);
+
+            const notation = document.createElement("h1");
+            notation.textContent = commentaire.note;
+            document.body.appendChild(notation);
+
+          });
+        });
+    </script>
+
+    <form action="/animal/{{ id }}/commentaire" method="POST">
+      <textarea name="commentaire" texte="Votre commentaire"></textarea>
+      <input type="number" name="note" min="1" max="5" texte="Note /5" />
+      <button type="submit">Envoyer</button>
+    </form>
+  </body>
+</html>

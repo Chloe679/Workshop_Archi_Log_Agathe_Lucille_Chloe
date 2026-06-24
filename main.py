@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, render_template, redirect, request, flash, url_for, session
-from app.services.accueil_service import Affiche_Animal
+from flask import Flask, jsonify, render_template,request, redirect, url_for, flash, session
+from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire
 from app.services.activite_service import transferActivites, addActivite
 from app.services.user_service import estCeQueLeBougExiste
 
@@ -78,16 +78,53 @@ def AfficheCreateActivite():
         flash(str(error), "error")
         return render_template("activite/create_activite.html")
 
+######################################################## AUTRES ########################################################
+
 @main.route('/animaux')
 def AffichePageAnimaux():
     return render_template("animal/accueil_animal.html")
-
-######################################################## AUTRES ########################################################
 
 @main.route('/Recupanimaux')
 def recup_animaux():
     return jsonify(Affiche_Animal())
 
+#Pour fiche animal 
+
+@main.route('/animal/<int:animal_id>') #<int:animal_id> parmet de recup id de l'url
+def AffichePageUniqueAnimaux(animal_id):
+    return render_template("animal/fiche_animal.html", id=animal_id) #on donne l'id au template (pour utilser dans html)
+
+@main.route('/Recup_unique_animal/<int:animal_id>') #on appelera dans le html /Recup_unique_animal/<int:animal_id>
+def recup_unique_animal(animal_id):
+    return jsonify(get_unique_animal(animal_id))
+
+@main.route('/recup_propri_animal/<int:animal_id>')
+def recup_propri_animal(animal_id):
+    return jsonify(find_user_of_animal(animal_id))
+
+@main.route('/recup_comm_animal/<int:animal_id>')
+def recup_comm_animal(animal_id):
+    return jsonify(get_comm_animal(animal_id))
+
+@main.route('/animal/<int:animal_id>/commentaire', methods=(['GET','POST']))
+def affiche_create_comm(animal_id):
+    if request.method=='GET':
+        return render_template("animal/fiche_animal.html", id=animal_id)
+    try:
+        id_user_connecte= 1; #à changer
+        get_commentaire(
+            commentaire= request.form.get("commentaire"),
+            note=request.form.get("note"),
+            id_user=id_user_connecte,
+            id_animal= animal_id
+        )
+        flash("Commentaire ajouté.", "success")
+        return redirect(url_for('AffichePageUniqueAnimaux', animal_id=animal_id))
+
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("animal/fiche_animal.html", id=animal_id)
+        
 @main.route('/infosActivites')
 def recup_activites():
     return jsonify(transferActivites())
