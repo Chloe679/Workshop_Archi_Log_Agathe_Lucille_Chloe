@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, redirect, request, flash, url_for, session
 from app.services.accueil_service import Affiche_Animal
 from app.services.activite_service import transferActivites, addActivite
-from app.services.user_service import estCeQueLeBougExiste
+from app.services.user_service import estCeQueLeBougExiste, ajouterLeBougDansLaBDD
 
 main= Flask(__name__)
 main.secret_key = "455771a41b3d2853dc7876378211876f860cf61512d49f8d0418bb94649056c9"
@@ -46,6 +46,34 @@ def deconnexion():
 @main.route('/compteUtilisateur')
 def affichageCompteUtilisateur():
     return render_template("user/account.html")
+
+@main.route('/inscription', methods=['GET', 'POST'])
+def AffichageInscription():
+    if request.method =='GET':
+        return render_template("user/inscription.html")
+    
+    try:
+        donnees = request.form
+        pseudo = donnees.get('pseudo') #récup le pseudo saisi
+        mdp = donnees.get('mdp') #récup le mdp saisie
+        prenom = donnees.get('prenom') #récup le mdp saisie
+        nom = donnees.get('nom') #récup le mdp saisie
+
+        ajouterLeBougDansLaBDD(pseudo, mdp, prenom, nom)
+
+        utilisateur = estCeQueLeBougExiste(pseudo, mdp) 
+        session['id_utilisateur'] = utilisateur[0]
+        session['pseudo_utilisateur'] = utilisateur[1]
+        session['mdp_utilisateur'] = utilisateur[2]
+        session['prenom_utilisateur'] = utilisateur[3]
+        session['nom_utilisateur'] = utilisateur[4]
+
+        flash("Utilisateur créé.", "success")
+        return redirect(url_for('affichageCompteUtilisateur'))
+    
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("user/inscription.html")
 
 ######################################################## ROUTES ACTIVTES ########################################################
 

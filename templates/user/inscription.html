@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="/static/generalstyle.css">
+        <link rel="stylesheet" href="/static/connexionstyle.css">
+        <title>Connexion</title>
+    </head>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/animaux"">Animaux</a></li>
+                <li><a href="/activites">Activites</a></li>
+                <li><a href="/connexion">Connexion</a></li>
+            </ul>
+        </nav>
+    </header>
+    <body>
+    <form action="{{ url_for('AffichageInscription') }}" method="POST" id="form" name="form">
+        <h1>Inscription</h1>
+
+        <section>
+            <label for="pseudo">Pseudo</label>
+            <input id="pseudo" name="pseudo" type="text" placeholder=" " autocomplete="pseudo" required>
+        </section>
+
+        <section>
+            <label for="mdp">Mot de passe</label>
+            <input id="mdp" name="mdp" type="password" autocomplete="mdp" aria-describedby="password-constraints" required>
+            <button id="toggle-password" type="button" aria-label="Attention votre mdp va s'afficher">Afficher le mdp</button>
+        </section>
+
+        <section>
+            <label for="nom">Nom</label>
+            <input id="nom" name="nom" type="text" placeholder=" " autocomplete="nom" required>
+        </section>
+
+        <section>
+            <label for="prenom">Prénom</label>
+            <input id="prenom" name="prenom" type="text" placeholder=" " autocomplete="prenom" required>
+        </section>
+        <button id="Inscription">S'inscrire</button>
+    </form>
+    <a href="/inscription">Vous avez déjà un compte ? Connectez-vous !</a>
+    <script>
+        const form = document.querySelector("form");
+        const mdpSaisi = document.querySelector("input#mdp");
+        const boutonSeConnecter = document.querySelector("button#Inscription");
+        const affichageMDP = document.querySelector("button#toggle-password");
+
+        affichageMDP.addEventListener("click", affichagerLeMDP); //Au clique, déclenche la fonction afficher le MDP
+
+        function affichagerLeMDP() {
+            if (mdpSaisi.type === "password") { //Si le texte saisie est un mdp
+                mdpSaisi.type = "text"; //On le passe en mode text pour l'afficher
+                affichageMDP.textContent = "Cacher le mdp"; //On change le texte du bouton
+                affichageMDP.setAttribute("aria-label", "Cacher le mdp."); //On change la valeur du label
+            } else {
+                mdpSaisi.type = "password"; //On annule les modifs
+                affichageMDP.textContent = "Afficher le mdp";
+                affichageMDP.setAttribute("aria-label","Attention votre mdp va s'afficher");
+            }
+        }
+
+        form.addEventListener("submit", handleFormSubmit); //Si le form est envoyé
+
+        function handleFormSubmit(event) {
+            console.log("Form submit event.");
+            if (form.checkValidity() === false) {
+                console.log("Les valeurs du form ne sont pas respecté");
+                event.preventDefault(); //N'envoie pas le formulaire
+            } else {
+                boutonSeConnecter.disabled = "true";
+                form.submit();
+            }
+        }
+    </script>
+</body>
+</html>
