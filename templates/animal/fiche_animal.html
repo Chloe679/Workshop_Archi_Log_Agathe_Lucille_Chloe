@@ -89,6 +89,11 @@
             const comm = document.createElement("h1");
             comm.textContent =  commentaire;
             document.body.appendChild(comm);
+
+            const notation = document.createElement("h1");
+            notation.textContent = commentaire.note;
+            document.body.appendChild(notation);
+
           });
         });
     </script>
