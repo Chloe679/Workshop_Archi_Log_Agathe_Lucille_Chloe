@@ -1,101 +1,29 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/static/generalstyle.css">
-    <link rel="stylesheet" href="/static/accueil_animal.css">
-    <title>Accueil animal</title>
-  </head>
-  <header>
-    <nav>
-		<ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/animaux"">Animaux</a></li>
-            <li><a href="/activites">Activites</a></li>
-            <li><a href="/connexion">Connexion</a></li>
-        </ul>
-    </nav>
-  </header>
-  <body>
 
-    
-    <h1>Accueil animal</h1>
-    {% if 'nom_utilisateur' in session %}
-      <button id="createFiche">Créez votre fiche animal</button>
-    {% endif %}
+from app.models.animal_model import Affiche, find_by_id,find_user_of_animal,find_commentaire, create_commentaire,create_fiche
+from config import get_connection
 
-    <script>
-    const btnCreate = document.getElementById("createFiche");
-    if (btnCreate) {
-      btnCreate.addEventListener("click", function() {window.location.href = "/create_animal";});
-    }
-    </script>
+def Affiche_Animal():
+    resultat = Affiche()
+    return resultat
 
-    <h2>Liste des animaux</h2>
-    <ul id="liste-animaux"></ul>
+def get_unique_animal(animal_id):
+    return find_by_id(animal_id)
 
-    <script>
-      fetch("/Recupanimaux")
-        .then((response) => response.json())
-        .then((data) => {
-          data.forEach((animal) => {
-//NOM
-            const nom = document.createElement("h1");
-            nom.textContent = animal[1]; 
-            document.body.appendChild(nom);
-//LIEN DYNAMIQUE
-      const lien = document.createElement("a");
-      lien.href = `/animal/${animal[0]}`; //on cree le lien animal/3 qui sera reçu par flask (cf route)
-      lien.textContent = animal[1];
-      document.body.appendChild(lien);
-//AGE
-            const age = document.createElement("h1");
-            age.textContent = animal[2];
-            document.body.appendChild(age);
-//ESPECE
-            const espece = document.createElement("h1");
-            espece.textContent = animal[3];
-            document.body.appendChild(espece);
-//IMAGE
-            const image = document.createElement("img");
-            image.src = animal[4]; // URL de l'image 
-            image.style.width = "200px"; 
-            document.body.appendChild(image);
+def get_proprio_animal(animal_id):
+    return find_user_of_animal(animal_id)
 
-//DANGER
-            const label = document.createElement("label");
-            label.textContent = "Dangerosité: ";
+def get_comm_animal(animal_id):
+    return find_commentaire(animal_id)
 
-            const progress = document.createElement("progress");
-            progress.max = 5; // danger sur 5
-            progress.value = animal[7]; 
-            label.appendChild(progress);
-            document.body.appendChild(label);
+def get_comm_animal(animal_id):
+    resultats = find_commentaire(animal_id)
+    return [comm[0] for comm in resultats]  # on extrait le texte de chaque tuple
+   
+def get_commentaire(commentaire,note,id_user,id_animal):
+    return create_commentaire(commentaire,note,id_user,id_animal)
 
-            if (animal[7]<=1){
-              progress.className = "faible";
-            }
-            else if (animal[7]<=2){
-              progress.className = "peu";
-            }
-            else if (animal[7]<=4){
-              progress.className = "moyen";
-            }
-            else if (animal[7]<=3){
-              progress.className = "eleve";
-            }
+def addFiche(nom_animal,age_animal,type_animal,url_image_animal,description_animal,id_user,danger):
+  return create_fiche(nom_animal,age_animal,type_animal,url_image_animal,description_animal,id_user,danger)
 
 
-          //DESCRIPTION
-            const des = document.createElement("h1");
-            des.textContent = animal[5];
-            document.body.appendChild(des);
-
-          });
-        })
-    </script>
-
-  </body>
-</html>
-
-
+  

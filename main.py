@@ -130,6 +130,7 @@ def recup_activites():
     return jsonify(transferActivites())
 
 @main.route('/create_animal', methods=['GET','POST'])
+
 def AfficheCreateFiche():
     if request.method =='GET':
         return render_template("animal/create_animal.html")
@@ -148,7 +149,7 @@ def AfficheCreateFiche():
             danger = request.form.get("danger")
         )
         flash("Fiche créée.", "success")
-        return redirect(url_for('AffichePageAnimaux'))
+        return redirect(url_for('AffichePageAnimal'))
     
     except ValueError as error:
         flash(str(error), "error")
@@ -157,7 +158,7 @@ def AfficheCreateFiche():
 #route pour aller page créer fiche animal
 @main.route('/animal')
 def AffichePageAnimal():
-    return render_template("animal/fiche_animal.html")
+    return render_template("animal/accueil_animal.html")
 
 
 if __name__ == '__main__':
