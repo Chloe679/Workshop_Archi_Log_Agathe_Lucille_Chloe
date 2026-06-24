@@ -18,12 +18,15 @@
   <body>
     <h1>Accueil Activités</h1>
     <ul id="liste-activites"></ul>
-
-    <button id="createActivites">Créez votre activité</button>
+    {% if 'nom_utilisateur' in session %}
+      <button id="createActivites">Créez votre activité</button>
+    {% endif %}
 
     <script>
-    document.getElementById("createActivites").addEventListener("click", function() {
-    window.location.href = "/create_activite";});
+    const btnCreate = document.getElementById("createActivites");
+    if (btnCreate) {
+      addEventListener("click", function() {window.location.href = "/create_activite";});
+    }
     
       fetch("/infosActivites")
         .then((response) => response.json())

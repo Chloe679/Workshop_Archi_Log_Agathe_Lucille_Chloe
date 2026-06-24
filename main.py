@@ -11,39 +11,6 @@ main.secret_key = "455771a41b3d2853dc7876378211876f860cf61512d49f8d0418bb9464905
 def AffichePageAccueil():
     return render_template("accueil.html")
 
-@main.route('/activites')
-def AffichePageActivites():
-    return render_template("activite/accueil_activite.html")
-
-@main.route('/create_activite', methods=['GET', 'POST'])
-def AfficheCreateActivite():
-    if request.method =='GET':
-        return render_template("activite/create_activite.html")
-    
-    try:
-
-        id_user_connected = 1 #A remplacer avec l'id de l'utilisateur connecté quand on aura merge
-
-        id_act = addActivite(
-            titre_act = request.form.get("titre_act"),
-            date_act = request.form.get("date_act"),
-            lieu_act = request.form.get("lieu_act"),
-            description_act = request.form.get("description_act"),
-            url_image_act = request.form.get("url_image_act"),
-            dangerosite_max_act = request.form.get("dangerosite_max_act"),
-            id_createur = id_user_connected
-        )
-        flash("Activité créée.", "success")
-        return redirect(url_for('AffichePageActivites'))
-    
-    except ValueError as error:
-        flash(str(error), "error")
-        return render_template("activite/create_activite.html")
-
-@main.route('/animaux')
-def AffichePageAnimaux():
-    return render_template("animal/accueil_animal.html")
-
 ######################################################## ROUTES UTILISATEURS ########################################################
 
 @main.route('/connexion', methods=["POST", "GET"])
@@ -79,6 +46,41 @@ def deconnexion():
 @main.route('/compteUtilisateur')
 def affichageCompteUtilisateur():
     return render_template("user/account.html")
+
+######################################################## ROUTES ACTIVTES ########################################################
+
+@main.route('/activites')
+def AffichePageActivites():
+    return render_template("activite/accueil_activite.html")
+
+@main.route('/create_activite', methods=['GET', 'POST'])
+def AfficheCreateActivite():
+    if request.method =='GET':
+        return render_template("activite/create_activite.html")
+    
+    try:
+
+        id_user_connected = session['id_utilisateur']; #A remplacer avec l'id de l'utilisateur connecté quand on aura merge
+
+        id_act = addActivite(
+            titre_act = request.form.get("titre_act"),
+            date_act = request.form.get("date_act"),
+            lieu_act = request.form.get("lieu_act"),
+            description_act = request.form.get("description_act"),
+            url_image_act = request.form.get("url_image_act"),
+            dangerosite_max_act = request.form.get("dangerosite_max_act"),
+            id_createur = id_user_connected
+        )
+        flash("Activité créée.", "success")
+        return redirect(url_for('AffichePageActivites'))
+    
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("activite/create_activite.html")
+
+@main.route('/animaux')
+def AffichePageAnimaux():
+    return render_template("animal/accueil_animal.html")
 
 ######################################################## AUTRES ########################################################
 
