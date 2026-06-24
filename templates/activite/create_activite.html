@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/generalstyle.css">
+    <title>Créer une activité</title>
+  </head>
+  <header>
+    <nav>
+				<ul>
+					<li><a href="/">Accueil</a></li>
+					<li><a href="/animaux"">Animaux</a></li>
+					<li><a href="/activites">Activites</a></li>
+					<li><a href="/connexion">Connexion</a></li>
+				</ul>
+			</nav>
+  </header>
+  <body>
+    <h1>Créer une activité</h1>
+    
+     <form action ="create_activite" method="POST">
+      <label for="titre">Titre activité</label>
+      <input type="text" id="titre" name="titre_act" required> <br><br>
+
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date_act" required><br><br>
+
+      <label for="lieu">Lieu</label>
+      <input type="text" id="lieu" name="lieu_act" required><br><br>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description_act" required></textarea><br><br>
+
+      <label for="url_image">URL Image</label>
+      <input type="text" id="url_image" name="url_image_act" required><br><br>
+
+      <label for="dangerosite_max">Dangerosite Max</label>
+      <input type="number" id="danger_max" name="dangerosite_max_act" required><br><br>
+
+      <button id ="SendForm" type="submit">Créer l'activité</button>
+
+     </form>
+
+    <script>
+      //formulaire
+        const boutonSeConnecter = document.querySelector("button#SendForm");
+
+         const form = document.querySelector("form");
+        form.addEventListener("submit", handleFormSubmit); //Si le form est envoyé
+
+        function handleFormSubmit(event) {
+            console.log("Form submit event.");
+            if (form.checkValidity() === false) {
+                console.log("Les valeurs du form ne sont pas respecté");
+                event.preventDefault(); //N'envoie pas le formulaire
+            } else {
+                boutonSeConnecter.disabled = "true";
+                form.submit();
+            }
+        }
+    </script>
+  </body>
+</html>

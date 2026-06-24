@@ -16,6 +16,44 @@
     </nav>
   </header>
   <body>
-    <h1>Activités</h1>
+    <h1>Accueil Activités</h1>
+    <ul id="liste-activites"></ul>
+
+    <button id="createActivites">Créez votre activité</button>
+
+    <script>
+    document.getElementById("createActivites").addEventListener("click", function() {
+    window.location.href = "/create_activite";});
+    
+      fetch("/infosActivites")
+        .then((response) => response.json())
+        .then((data) => {
+          data.forEach((activites) => {
+            const titre = document.createElement("h1");
+            titre.textContent = activites[1];
+            document.body.appendChild(titre);
+
+             const date = document.createElement("h1");
+            date.textContent = activites[2];
+            document.body.appendChild(date);
+
+             const lieu = document.createElement("h1");
+            lieu.textContent = activites[3];
+            document.body.appendChild(lieu);
+
+             const description = document.createElement("h1");
+            description.textContent = activites[4];
+            document.body.appendChild(description);
+
+             const image = document.createElement("h1");
+            image.textContent = activites[5];
+            document.body.appendChild(image);
+
+             const dangerMax = document.createElement("h1");
+            dangerMax.textContent = activites[6];
+            document.body.appendChild(dangerMax);
+          });
+        })
+    </script>
   </body>
 </html>
