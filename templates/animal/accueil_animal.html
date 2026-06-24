@@ -20,6 +20,16 @@
 
     
     <h1>Accueil animal</h1>
+    {% if 'nom_utilisateur' in session %}
+      <button id="createFiche">Créez votre fiche animal</button>
+    {% endif %}
+
+    <script>
+    const btnCreate = document.getElementById("createFiche");
+    if (btnCreate) {
+      btnCreate.addEventListener("click", function() {window.location.href = "/create_animal";});
+    }
+    </script>
 
     <h2>Liste des animaux</h2>
     <ul id="liste-animaux"></ul>
