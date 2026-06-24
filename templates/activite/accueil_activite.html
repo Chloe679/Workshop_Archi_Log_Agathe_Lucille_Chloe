@@ -32,27 +32,36 @@
         .then((response) => response.json())
         .then((data) => {
           data.forEach((activites) => {
+
+      const lien = document.createElement("a");
+      lien.href = `/activites/${activites[0]}`;
+      lien.textContent = activites[1];
+      document.body.appendChild(lien);
+
+
             const titre = document.createElement("h1");
             titre.textContent = activites[1];
             document.body.appendChild(titre);
 
-             const date = document.createElement("h1");
+            const date = document.createElement("p");
             date.textContent = activites[2];
             document.body.appendChild(date);
 
-             const lieu = document.createElement("h1");
+            const lieu = document.createElement("p");
             lieu.textContent = activites[3];
             document.body.appendChild(lieu);
 
-             const description = document.createElement("h1");
+            const description = document.createElement("p");
             description.textContent = activites[4];
             document.body.appendChild(description);
 
-             const image = document.createElement("h1");
-            image.textContent = activites[5];
+            
+            const image = document.createElement("img");
+            image.src = activites[5];
+            image.style.width = "200px";
             document.body.appendChild(image);
 
-             const dangerMax = document.createElement("h1");
+             const dangerMax = document.createElement("p");
             dangerMax.textContent = activites[6];
             document.body.appendChild(dangerMax);
           });

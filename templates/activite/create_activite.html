@@ -37,6 +37,14 @@
       <label for="dangerosite_max">Dangerosite Max</label>
       <input type="number" id="danger_max" name="dangerosite_max_act" required><br><br>
 
+      <label for="animaux">Animal participant</label>
+      <select id="animaux" name="animaux" multiple>
+        {% for animal in animaux%}
+      <option value="{{animal[0]}}">{{animal[1]}}</option>
+      {% endfor%}
+      </select>
+
+      
       <button id ="SendForm" type="submit">Créer l'activité</button>
 
      </form>
