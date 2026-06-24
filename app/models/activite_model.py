@@ -41,3 +41,13 @@ def findID_act(activite_id):
     mycursor= mydb.cursor()
     mycursor.execute('''SELECT * FROM activites WHERE id_act = %s ''', (activite_id,))
     return mycursor.fetchone()
+
+
+def deleteActivite(activite_id):
+    mydb = get_connection()
+    mycursor= mydb.cursor()
+    mycursor.execute('''DELETE FROM activites WHERE id_act = %s ''', (activite_id,))
+    mydb.commit()
+    print("Lignes supprimées:", mycursor.rowcount)
+    mycursor.close()
+    mydb.close()

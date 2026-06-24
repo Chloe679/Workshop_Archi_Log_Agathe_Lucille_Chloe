@@ -57,5 +57,10 @@
          })
          ;
     </script>
+    {% if 'nom_utilisateur' in session %}
+    <form action="/delete_activite/{{ id }}" , method="POST">
+      <button type="submit">Supprimer l'activité</button>
+    </form>
+    {% endif %}
   </body>
 </html>

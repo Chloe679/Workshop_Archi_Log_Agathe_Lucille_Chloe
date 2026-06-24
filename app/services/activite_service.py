@@ -1,5 +1,5 @@
 from app.models.activite_model import getActivites
-from app.models.activite_model import createActivite, findID_act, getAnimal, addAnimalActivite
+from app.models.activite_model import createActivite, findID_act, getAnimal, addAnimalActivite, deleteActivite
 
 def transferActivites():
     resultat = getActivites()
@@ -20,3 +20,6 @@ def linkAnimal(id_act, id_user, id_animal):
 
 def getFicheActivite(activite_id):
     return findID_act(activite_id)
+
+def removeActivite(activite_id):
+    return deleteActivite(activite_id)

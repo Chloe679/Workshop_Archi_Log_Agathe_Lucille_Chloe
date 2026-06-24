@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template,request, redirect, url_for, flash, session
 from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire
-from app.services.activite_service import transferActivites, addActivite, getFicheActivite, transferAnimal, linkAnimal
+from app.services.activite_service import transferActivites, addActivite, getFicheActivite, transferAnimal, linkAnimal, removeActivite
 from app.services.user_service import estCeQueLeBougExiste
 
 main= Flask(__name__)
@@ -99,6 +99,15 @@ def afficheFicheActivite(activite_id):
 def recup_fiche_activite(activite_id):
     return jsonify(getFicheActivite(activite_id))
 
+@main.route('/delete_activite/<int:activite_id>', methods=['POST'])
+def suppActivite(activite_id):
+    print("Suppression activite id:", activite_id)
+    removeActivite(activite_id)
+    flash("Activité supprimée.", "success")
+    return redirect(url_for('AffichePageActivites'))
+    
+
+    
 
 
 @main.route('/Recupanimaux')
