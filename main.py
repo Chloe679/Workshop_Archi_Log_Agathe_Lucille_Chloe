@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, render_template
-from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal
+from flask import Flask, jsonify, render_template,request, redirect, url_for, flash
+from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire
 
 main= Flask(__name__)
+main.secret_key = "une_cle_secrete" #jsp pq faut mettre ça
 
 
 @main.route('/')
@@ -42,5 +43,24 @@ def recup_propri_animal(animal_id):
 def recup_comm_animal(animal_id):
     return jsonify(get_comm_animal(animal_id))
 
+@main.route('/animal/<int:animal_id>/commentaire', methods=(['GET','POST']))
+def affiche_create_comm(animal_id):
+    if request.method=='GET':
+        return render_template("animal/fiche_animal.html", id=animal_id)
+    try:
+        id_user_connecte= 1; #à changer
+        get_commentaire(
+            commentaire= request.form.get("commentaire"),
+            note=request.form.get("note"),
+            id_user=id_user_connecte,
+            id_animal= animal_id
+        )
+        flash("Commentaire ajouté.", "success")
+        return redirect(url_for('AffichePageUniqueAnimaux', animal_id=animal_id))
+
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("animal/fiche_animal.html", id=animal_id)
+        
 if __name__ == '__main__':
     main.run(debug=True)

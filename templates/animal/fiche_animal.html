@@ -80,14 +80,23 @@
           document.body.appendChild(pro);
         });
 
+
         //AFFICHE COMM
         fetch(`/recup_comm_animal/${id}`)
         .then((response) => response.json())
         .then((data) => {
+          data.forEach((commentaire) => {
             const comm = document.createElement("h1");
-            comm.textContent = data[0];
+            comm.textContent =  commentaire;
             document.body.appendChild(comm);
+          });
         });
     </script>
+
+    <form action="/animal/{{ id }}/commentaire" method="POST">
+      <textarea name="commentaire" texte="Votre commentaire"></textarea>
+      <input type="number" name="note" min="1" max="5" texte="Note /5" />
+      <button type="submit">Envoyer</button>
+    </form>
   </body>
 </html>

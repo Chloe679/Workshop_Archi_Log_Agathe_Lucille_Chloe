@@ -20,7 +20,7 @@ def find_user_of_animal(animal_id):
     mycursor= mydb.cursor()
     mycursor.execute('''SELECT prenom_user FROM user JOIN animal ON animal.id_user=user.id_user WHERE id_animal = %s ''', (animal_id,)
     )
-    return mycursor.fetchone()
+    return mycursor.fetchall()
 
 #afficher les commentaires associés à l'animal
 def find_commentaire(animal_id):
@@ -28,4 +28,16 @@ def find_commentaire(animal_id):
     mycursor= mydb.cursor()
     mycursor.execute('''SELECT commentaire FROM commentaire JOIN animal ON animal.id_animal=commentaire.id_animal WHERE animal.id_animal  = %s ''', (animal_id,)
     )
-    return mycursor.fetchone()
+    return mycursor.fetchall()
+
+#creation des commentaires
+
+def create_commentaire(commentaire,note,id_user,id_animal): 
+    mydb = get_connection()
+    mycursor= mydb.cursor()
+    sql='''INSERT INTO commentaire (commentaire,note,id_user,id_animal) VALUES (%s,%s,%s,%s)''' 
+    values=(commentaire,note,id_user,id_animal)
+    mycursor.execute(sql, values)
+    mydb.commit()
+    mycursor.close()
+    mydb.close()
