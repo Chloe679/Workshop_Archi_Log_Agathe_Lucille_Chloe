@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, render_template, redirect, request, flash, url_for, session
 from app.services.accueil_service import Affiche_Animal
 from app.services.activite_service import transferActivites, addActivite
-from app.services.user_service import estCeQueLeBougExiste, ajouterLeBougDansLaBDD
+from app.services.user_service import estCeQueLeBougExiste, ajouterLeBougDansLaBDD, ModifierLesInfosDuBoug
+from werkzeug.security import check_password_hash
 
 main= Flask(__name__)
 main.secret_key = "455771a41b3d2853dc7876378211876f860cf61512d49f8d0418bb94649056c9"
@@ -74,6 +75,42 @@ def AffichageInscription():
     except ValueError as error:
         flash(str(error), "error")
         return render_template("user/inscription.html")
+    
+@main.route('/ModificationUser', methods=['GET', 'POST'])
+def affichageModifCompteUtilisateur():
+    if request.method =='GET':
+        return render_template("user/accountModification.html")
+    
+    try:
+        donnees = request.form
+        pseudo = donnees.get('pseudo') #récup le pseudo saisi
+        mdpActuel = donnees.get('mdpActuel') #récup le mdp saisie
+        mdpModif = donnees.get('mdpModif') #récup le mdp saisie
+        prenom = donnees.get('prenom') #récup le mdp saisie
+        nom = donnees.get('nom') #récup le mdp saisie
+
+        if not mdpModif:
+            mdpModif = mdpActuel
+
+        try:
+            mdp_actuel_valide = check_password_hash(session['mdp_utilisateur'], mdpActuel)
+        except (ValueError, TypeError):
+            mdp_actuel_valide = False #Evite les erreurs si corrompu, vide ou mauvais format
+        
+        if mdp_actuel_valide:
+
+            ModifierLesInfosDuBoug(session['id_utilisateur'], session['pseudo_utilisateur'], session['mdp_utilisateur'], session['prenom_utilisateur'], session['nom_utilisateur'], pseudo, mdpModif, prenom, nom)
+
+            flash("Compte mis à jour. Veuillez vous reconnecter.", "success")
+            return redirect(url_for('deconnexion'))
+        else:
+            flash("Mot de passe actuel incorrect.", "error")
+            return render_template("user/accountModification.html")
+    
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("user/accountModification.html")
+
 
 ######################################################## ROUTES ACTIVTES ########################################################
 
