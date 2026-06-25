@@ -6,14 +6,18 @@
     <title>Créer une activité</title>
   </head>
   <header>
-    <nav>
-				<ul>
-					<li><a href="/">Accueil</a></li>
-					<li><a href="/animaux"">Animaux</a></li>
-					<li><a href="/activites">Activites</a></li>
-					<li><a href="/connexion">Connexion</a></li>
-				</ul>
-			</nav>
+      <nav>
+          <ul>
+              <li><a href="/">Accueil</a></li>
+              <li><a href="/animaux"">Animaux</a></li>
+              <li><a href="/activites">Activites</a></li>
+      {% if 'nom_utilisateur' in session %}
+          <li><a href="/compteUtilisateur">Mon Compte</a></li>
+      {% else %}
+                  <li><a href="/connexion">Connexion</a></li>
+      {% endif %}
+          </ul>
+      </nav>
   </header>
   <body>
     <h1>Créer une activité</h1>

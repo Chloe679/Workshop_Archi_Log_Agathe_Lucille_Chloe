@@ -7,14 +7,18 @@
         <title>Connexion</title>
     </head>
     <header>
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/animaux"">Animaux</a></li>
-                <li><a href="/activites">Activites</a></li>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/animaux"">Animaux</a></li>
+            <li><a href="/activites">Activites</a></li>
+    {% if 'nom_utilisateur' in session %}
+        <li><a href="/compteUtilisateur">Mon Compte</a></li>
+    {% else %}
                 <li><a href="/connexion">Connexion</a></li>
-            </ul>
-        </nav>
+    {% endif %}
+        </ul>
+    </nav>
     </header>
     <body>
     <form action="{{ url_for('AffichageInscription') }}" method="POST" id="form" name="form">
