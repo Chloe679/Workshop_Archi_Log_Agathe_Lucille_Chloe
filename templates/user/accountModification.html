@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="/static/generalstyle.css">
+        <link rel="stylesheet" href="/static/connexionstyle.css">
+        <title>Connexion</title>
+    </head>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/animaux"">Animaux</a></li>
+                <li><a href="/activites">Activites</a></li>
+        {% if 'nom_utilisateur' in session %}
+            <li><a href="/compteUtilisateur">Mon Compte</a></li>
+        {% else %}
+                    <li><a href="/connexion">Connexion</a></li>
+        {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <body>
+    <form action="{{ url_for('affichageModifCompteUtilisateur') }}" method="POST" id="form" name="form">
+        <h1>Modifier mes informations</h1>
+
+        <section>
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" value="{{ session.get('nom_utilisateur') }}">
+        </section>
+
+        <section>
+          <label for="prenom">Prénom :</label>
+          <input type="text" id="prenom" name="prenom" value="{{ session.get('prenom_utilisateur') }}">
+        </section>
+
+        <section>
+          <label for="pseudo">Pseudo :</label>
+          <input type="text" id="pseudo" name="pseudo" value="{{ session.get('pseudo_utilisateur') }}" required>
+        </section>
+
+        <section>
+            <label for="mdpActuel">Mot de passe actuel</label>
+            <input id="mdpActuel" name="mdpActuel" type="password" autocomplete="mdpActuel" aria-describedby="password-constraints" required>
+            <button id="toggle-password1" type="button" aria-label="Attention votre mdp va s'afficher">Afficher le mdp</button>
+        </section>
+
+        <section>
+            <label for="mdpModif">Nouveau mot de passe</label>
+            <input id="mdpModif" name="mdpModif" type="password" autocomplete="mdpModif" aria-describedby="password-constraints">
+            <button id="toggle-password2" type="button" aria-label="Attention votre mdp va s'afficher">Afficher le mdp</button>
+        </section>
+
+        <button id="changementInfo">Changer mes informations</button>
+    </form>
+    <a href="/compteUtilisateur">Retourner sur vos informations</a>
+    <script>
+        const form = document.querySelector("form");
+        const mdpSaisi = document.querySelector("input#mdpActuel");
+        const mdpModif = document.querySelector("input#mdpModif");
+        const boutonSeConnecter = document.querySelector("button#changementInfo");
+        const affichageMDPActuel = document.querySelector("button#toggle-password1");
+        const affichageMDPModif2 = document.querySelector("button#toggle-password2");
+
+        affichageMDPActuel.addEventListener("click", affichagerLeMDPActuel); //Au clique, déclenche la fonction afficher le MDP
+        affichageMDPModif2.addEventListener("click", affichageMDPModif); //Au clique, déclenche la fonction afficher le MDP
+
+        function affichagerLeMDPActuel() {
+            if (mdpSaisi.type === "password") { //Si le texte saisie est un mdp
+                mdpSaisi.type = "text"; //On le passe en mode text pour l'afficher
+                affichageMDP.textContent = "Cacher le mdp"; //On change le texte du bouton
+                affichageMDP.setAttribute("aria-label", "Cacher le mdp."); //On change la valeur du label
+            } else {
+                mdpSaisi.type = "password"; //On annule les modifs
+                affichageMDP.textContent = "Afficher le mdp";
+                affichageMDP.setAttribute("aria-label","Attention votre mdp va s'afficher");
+            }
+        }
+
+        function affichageMDPModif() {
+            if (mdpModif.type === "password") { //Si le texte saisie est un mdp
+                mdpModif.type = "text"; //On le passe en mode text pour l'afficher
+                affichageMDP.textContent = "Cacher le mdp"; //On change le texte du bouton
+                affichageMDP.setAttribute("aria-label", "Cacher le mdp."); //On change la valeur du label
+            } else {
+                mdpModif.type = "password"; //On annule les modifs
+                affichageMDP.textContent = "Afficher le mdp";
+                affichageMDP.setAttribute("aria-label","Attention votre mdp va s'afficher");
+            }
+        }
+
+        form.addEventListener("submit", handleFormSubmit); //Si le form est envoyé
+
+        function handleFormSubmit(event) {
+            console.log("Form submit event.");
+            if (form.checkValidity() === false) {
+                console.log("Les valeurs du form ne sont pas respecté");
+                event.preventDefault(); //N'envoie pas le formulaire
+            } else {
+                boutonSeConnecter.disabled = "true";
+                form.submit();
+            }
+        }
+    </script>
+</body>
+</html>

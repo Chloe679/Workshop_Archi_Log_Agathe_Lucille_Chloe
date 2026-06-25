@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, render_template,request, redirect, url_for, flash, session
 from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire
 from app.services.activite_service import transferActivites, addActivite, getFicheActivite, transferAnimal, linkAnimal, removeActivite
-from app.services.user_service import estCeQueLeBougExiste
+from app.services.user_service import estCeQueLeBougExiste, ajouterLeBougDansLaBDD, ModifierLesInfosDuBoug
+from werkzeug.security import check_password_hash
 
 main= Flask(__name__)
 main.secret_key = "455771a41b3d2853dc7876378211876f860cf61512d49f8d0418bb94649056c9"
@@ -46,6 +47,70 @@ def deconnexion():
 @main.route('/compteUtilisateur')
 def affichageCompteUtilisateur():
     return render_template("user/account.html")
+
+@main.route('/inscription', methods=['GET', 'POST'])
+def AffichageInscription():
+    if request.method =='GET':
+        return render_template("user/inscription.html")
+    
+    try:
+        donnees = request.form
+        pseudo = donnees.get('pseudo') #récup le pseudo saisi
+        mdp = donnees.get('mdp') #récup le mdp saisie
+        prenom = donnees.get('prenom') #récup le mdp saisie
+        nom = donnees.get('nom') #récup le mdp saisie
+
+        ajouterLeBougDansLaBDD(pseudo, mdp, prenom, nom)
+
+        utilisateur = estCeQueLeBougExiste(pseudo, mdp) 
+        session['id_utilisateur'] = utilisateur[0]
+        session['pseudo_utilisateur'] = utilisateur[1]
+        session['mdp_utilisateur'] = utilisateur[2]
+        session['prenom_utilisateur'] = utilisateur[3]
+        session['nom_utilisateur'] = utilisateur[4]
+
+        flash("Utilisateur créé.", "success")
+        return redirect(url_for('affichageCompteUtilisateur'))
+    
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("user/inscription.html")
+    
+@main.route('/ModificationUser', methods=['GET', 'POST'])
+def affichageModifCompteUtilisateur():
+    if request.method =='GET':
+        return render_template("user/accountModification.html")
+    
+    try:
+        donnees = request.form
+        pseudo = donnees.get('pseudo') #récup le pseudo saisi
+        mdpActuel = donnees.get('mdpActuel') #récup le mdp saisie
+        mdpModif = donnees.get('mdpModif') #récup le mdp saisie
+        prenom = donnees.get('prenom') #récup le mdp saisie
+        nom = donnees.get('nom') #récup le mdp saisie
+
+        if not mdpModif:
+            mdpModif = mdpActuel
+
+        try:
+            mdp_actuel_valide = check_password_hash(session['mdp_utilisateur'], mdpActuel)
+        except (ValueError, TypeError):
+            mdp_actuel_valide = False #Evite les erreurs si corrompu, vide ou mauvais format
+        
+        if mdp_actuel_valide:
+
+            ModifierLesInfosDuBoug(session['id_utilisateur'], session['pseudo_utilisateur'], session['mdp_utilisateur'], session['prenom_utilisateur'], session['nom_utilisateur'], pseudo, mdpModif, prenom, nom)
+
+            flash("Compte mis à jour. Veuillez vous reconnecter.", "success")
+            return redirect(url_for('deconnexion'))
+        else:
+            flash("Mot de passe actuel incorrect.", "error")
+            return render_template("user/accountModification.html")
+    
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("user/accountModification.html")
+
 
 ######################################################## ROUTES ACTIVTES ########################################################
 

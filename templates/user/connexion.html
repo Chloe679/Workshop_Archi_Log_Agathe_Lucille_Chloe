@@ -12,7 +12,11 @@
                 <li><a href="/">Accueil</a></li>
                 <li><a href="/animaux"">Animaux</a></li>
                 <li><a href="/activites">Activites</a></li>
-                <li><a href="/connexion">Connexion</a></li>
+        {% if 'nom_utilisateur' in session %}
+            <li><a href="/compteUtilisateur">Mon Compte</a></li>
+        {% else %}
+                    <li><a href="/connexion">Connexion</a></li>
+        {% endif %}
             </ul>
         </nav>
     </header>
@@ -33,6 +37,7 @@
 
         <button id="seConnecter">Se connecter</button>
     </form>
+    <a href="/inscription">Vous n'avez pas de compte ? Inscrivez-vous !</a>
     <script>
         const form = document.querySelector("form");
         const mdpSaisi = document.querySelector("input#mdp");
