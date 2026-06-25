@@ -48,3 +48,15 @@ def ModifierLesInfosDuBougDansLaBDD(id_user, pseudoAncien, mdpAncien, prenomAnci
 
     mycursor.close()
     mydb.close()
+
+def RecupererLesAnimauxDuBougDansLaBDD(id_user):
+    mydb = get_connection()
+    mycursor= mydb.cursor()
+    mycursor.execute("SELECT animal.nom_animal, animal.url_image_animal FROM animal JOIN user ON user.id_user = animal.id_user WHERE user.id_user = %s",(id_user,)) 
+    return mycursor.fetchall()
+
+def RecupererLesActivitesDuBougDansLaBDD(id_user):
+    mydb = get_connection()
+    mycursor= mydb.cursor()
+    mycursor.execute("SELECT activites.titre_act, activites.url_image_act FROM activites JOIN user ON user.id_user = activites.id_createur WHERE user.id_user = %s",(id_user,)) 
+    return mycursor.fetchall()

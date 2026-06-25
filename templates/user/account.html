@@ -9,7 +9,7 @@
     <nav>
         <ul>
             <li><a href="/">Accueil</a></li>
-            <li><a href="/animaux"">Animaux</a></li>
+            <li><a href="/animaux">Animaux</a></li>
             <li><a href="/activites">Activites</a></li>
             {% if 'nom_utilisateur' in session %}
             	<li><a href="/compteUtilisateur">Mon Compte</a></li>
@@ -27,5 +27,47 @@
       <p>Pseudo : {{ session.get('pseudo_utilisateur') }}</p>
       <a href="/ModificationUser">Modifier mes informations</a>
       <a href="/deconnexion">Se déconnecter</a>
+
+      <h2 id="AffichageAnimaux">Voici vos animaux</h2>
+      <div id="conteneurAnimaux"></div>
+
+      <h2 id="AffichageActivites">Voici vos activités</h2>
+      <div id="conteneurActivites"></div>
+
+    <script>
+      fetch("/RecupAnimauxDuBoug")
+        .then((response) => response.json())
+        .then((data) => {
+          const conteneur = document.getElementById("conteneurAnimaux");
+          data.forEach((animal) => {
+            // NOM
+            const nom = document.createElement("h3");
+            nom.textContent = animal[0];
+            conteneur.appendChild(nom);
+            // IMAGE
+            const image = document.createElement("img");
+            image.src = animal[1];
+            image.style.width = "200px";
+            conteneur.appendChild(image);
+          });
+        });
+
+      fetch("/RecupActivitesDuBoug")
+        .then((response) => response.json())
+        .then((data) => {
+          const conteneur = document.getElementById("conteneurActivites");
+          data.forEach((activite) => {
+            // NOM
+            const nom = document.createElement("h3");
+            nom.textContent = activite[0];
+            conteneur.appendChild(nom);
+            // IMAGE
+            const image = document.createElement("img");
+            image.src = activite[1];
+            image.style.width = "200px";
+            conteneur.appendChild(image);
+          });
+        });
+    </script>
   </body>
 </html>

@@ -43,7 +43,7 @@
         .then((response) => response.json())
         .then((data) => {
           data.forEach((animal) => {
-//NOM
+            //NOM
             const nom = document.createElement("h1");
             nom.textContent = animal[1]; 
             document.body.appendChild(nom);

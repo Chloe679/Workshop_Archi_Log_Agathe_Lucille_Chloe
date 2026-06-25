@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template,request, redirect, url_for, flash, session
 from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire,addFiche,affiche_moyenne
 from app.services.activite_service import transferActivites, addActivite, getFicheActivite, transferAnimal, linkAnimal, removeActivite
-from app.services.user_service import estCeQueLeBougExiste, ajouterLeBougDansLaBDD, ModifierLesInfosDuBoug
+from app.services.user_service import estCeQueLeBougExiste, ajouterLeBougDansLaBDD, ModifierLesInfosDuBoug, RecupererLesAnimauxDuBoug, RecupererLesActivitesDuBoug
 from werkzeug.security import check_password_hash
 from app.services.accueil_service import affiche_random_id
 
@@ -111,7 +111,14 @@ def affichageModifCompteUtilisateur():
     except ValueError as error:
         flash(str(error), "error")
         return render_template("user/accountModification.html")
+    
+@main.route('/RecupAnimauxDuBoug')
+def recup_animauxDuBoug():
+    return jsonify(RecupererLesAnimauxDuBoug(session['id_utilisateur']))
 
+@main.route('/RecupActivitesDuBoug')
+def recup_activitesDuBoug():
+    return jsonify(RecupererLesActivitesDuBoug(session['id_utilisateur']))
 
 ######################################################## ROUTES ACTIVTES ########################################################
 
@@ -151,8 +158,6 @@ def AfficheCreateActivite():
 
 ######################################################## AUTRES ########################################################
 
-######################################################## AUTRES ########################################################
-
 @main.route('/animaux')
 def AffichePageAnimaux():
     return render_template("animal/accueil_animal.html")
@@ -172,9 +177,6 @@ def suppActivite(activite_id):
     flash("Activité supprimée.", "success")
     return redirect(url_for('AffichePageActivites'))
     
-
-    
-
 
 @main.route('/Recupanimaux')
 def recup_animaux():
