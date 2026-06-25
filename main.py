@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template,request, redirect, url_for, fl
 from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire,addFiche,affiche_moyenne
 from app.services.activite_service import transferActivites, addActivite
 from app.services.user_service import estCeQueLeBougExiste
+from app.services.accueil_service import affiche_random_id
 
 main= Flask(__name__)
 main.secret_key = "455771a41b3d2853dc7876378211876f860cf61512d49f8d0418bb94649056c9"
@@ -163,6 +164,10 @@ def AffichePageAnimal():
 @main.route('/moyenne_animal/<int:animal_id>')
 def moyenne_animal(animal_id):
     return jsonify(affiche_moyenne(animal_id))
+
+@main.route('/affichage_random')
+def affiche_random():
+    return jsonify(affiche_random_id())
 
 
 if __name__ == '__main__':
