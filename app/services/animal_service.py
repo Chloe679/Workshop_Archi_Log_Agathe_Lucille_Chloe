@@ -1,5 +1,5 @@
 
-from app.models.animal_model import Affiche, find_by_id,find_user_of_animal,find_commentaire, create_commentaire,create_fiche
+from app.models.animal_model import Affiche, find_by_id,find_user_of_animal,find_commentaire, create_commentaire,create_fiche,note_moy
 from config import get_connection
 
 def Affiche_Animal():
@@ -21,5 +21,7 @@ def get_commentaire(commentaire,note,id_user,id_animal):
 def addFiche(nom_animal,age_animal,type_animal,url_image_animal,description_animal,id_user,danger):
   return create_fiche(nom_animal,age_animal,type_animal,url_image_animal,description_animal,id_user,danger)
 
+def affiche_moyenne(id_animal):
+    return(note_moy(id_animal))
 
   

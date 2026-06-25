@@ -43,6 +43,16 @@
             const nom = document.createElement("h1");
             nom.textContent = animal[1]; 
             document.body.appendChild(nom);
+
+  //MOYENNE
+  fetch(`/moyenne_animal/${animal[0]}`)  //  animal[0]=id
+    .then(response => response.json())
+    .then(moyData => {
+      const moy = document.createElement("p");
+      moy.textContent = `Moyenne des notes : ${moyData[0]}/5`;
+      nom.appendChild(moy);  
+    });
+    
 //LIEN DYNAMIQUE
       const lien = document.createElement("a");
       lien.href = `/animal/${animal[0]}`; //on cree le lien animal/3 qui sera reçu par flask (cf route)

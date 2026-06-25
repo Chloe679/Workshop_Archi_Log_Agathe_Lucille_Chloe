@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template,request, redirect, url_for, flash, session
-from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire,addFiche
+from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire,addFiche,affiche_moyenne
 from app.services.activite_service import transferActivites, addActivite
 from app.services.user_service import estCeQueLeBougExiste
 
@@ -159,6 +159,10 @@ def AfficheCreateFiche():
 @main.route('/animal')
 def AffichePageAnimal():
     return render_template("animal/accueil_animal.html")
+
+@main.route('/moyenne_animal/<int:animal_id>')
+def moyenne_animal(animal_id):
+    return jsonify(affiche_moyenne(animal_id))
 
 
 if __name__ == '__main__':

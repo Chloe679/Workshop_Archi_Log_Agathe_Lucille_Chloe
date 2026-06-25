@@ -51,3 +51,10 @@ def create_fiche(nom_animal,age_animal,type_animal,url_image_animal,description_
     mydb.commit()
     mycursor.close()
     mydb.close()
+
+def note_moy(id_animal):
+    mydb = get_connection()
+    mycursor=mydb.cursor()
+    mycursor.execute('''SELECT AVG (note) FROM commentaire JOIN animal ON animal.id_animal=commentaire.id_animal WHERE animal.id_animal  = %s ''', (id_animal,)
+    )
+    return mycursor.fetchall()
