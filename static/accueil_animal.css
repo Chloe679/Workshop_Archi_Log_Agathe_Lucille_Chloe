@@ -1,17 +1,165 @@
-/*curseur dangerosité*/
+/* ====================================================================
+   POISSON STEVE & CO — Styles des fiches détaillées
+   (utilisé en complément de generalstyle.css sur les pages
+   accueil_animal, fiche_animal et fiche_activite)
+   ==================================================================== */
 
-progress.faible {
-  accent-color: green;
+/* ---------- Fiche animal / fiche activité : carte détaillée ---------- */
+.fiche-animal,
+.fiche-activite {
+  background-color: var(--blanc);
+  border: var(--bordure-ludique);
+  border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-carte);
+  padding: 1.8rem;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  position: relative;
+  overflow: hidden;
 }
 
-progress.peu {
-  accent-color: yellow;
+.fiche-animal::before,
+.fiche-activite::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--corail), var(--jaune-soleil), var(--vert-feuille));
 }
 
-progress.moyen {
-  accent-color: orange;
+.fiche-animal-nom,
+.fiche-activite-titre {
+  font-size: 1.6rem;
+  color: var(--bleu-bassin);
+  margin-bottom: 0.2rem;
 }
 
-progress.eleve {
-  accent-color: red;
+.fiche-animal-age::before {
+  content: "Âge : ";
+  font-weight: 700;
+  color: var(--texte-doux);
+}
+
+.fiche-animal-espece::before {
+  content: "Espèce : ";
+  font-weight: 700;
+  color: var(--texte-doux);
+}
+
+.fiche-animal-age,
+.fiche-animal-espece {
+  font-family: var(--police-texte);
+  font-weight: 400;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.fiche-animal-proprietaire::before {
+  content: "🧑\200d🌾 Confié par : ";
+  font-weight: 700;
+  color: var(--texte-doux);
+}
+
+.fiche-animal-proprietaire {
+  font-family: var(--police-texte);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--bleu-bassin);
+  margin: 0.3rem 0;
+}
+
+.fiche-animal-moyenne {
+  font-weight: 700;
+  color: var(--corail-fonce);
+  background-color: var(--corail-clair);
+  border-radius: var(--rayon-bouton);
+  padding: 0.3rem 0.8rem;
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.fiche-activite-date,
+.fiche-activite-lieu {
+  font-weight: 600;
+  color: var(--texte-doux);
+  margin: 0;
+}
+
+.fiche-activite-date::before {
+  content: "📅 ";
+}
+
+.fiche-activite-lieu::before {
+  content: "📍 ";
+}
+
+.fiche-activite-danger {
+  align-self: flex-start;
+  margin-top: 0.3rem;
+}
+
+.fiche-activite-danger::before {
+  content: "⚠️ Dangerosité max : ";
+}
+
+/* ---------- Liste des commentaires ---------- */
+.liste-caracteristiques {
+  max-width: 600px;
+  margin: 1.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.commentaire-item {
+  background-color: var(--creme);
+  border: 2px solid var(--creme-fonce);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.commentaire-texte {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--texte);
+}
+
+.commentaire-note {
+  margin: 0;
+  font-weight: 700;
+  color: var(--corail-fonce);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+}
+
+.commentaire-note:not(:empty)::after {
+  content: "/5";
+  font-weight: 400;
+  font-size: 0.85em;
+  color: var(--texte-doux);
+}
+
+@media (max-width: 600px) {
+  .fiche-animal,
+  .fiche-activite {
+    padding: 1.2rem;
+  }
+
+  .commentaire-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

@@ -6,9 +6,8 @@
     <link rel="stylesheet" href="/static/accueil_animal.css" />
     <title>Accueil animal</title>
   </head>
-  <header>
-    <nav>
-    <nav>
+  <header class="site-header">
+    <nav class="site-nav">
 				<ul>
 					<li><a href="/">Accueil</a></li>
 					<li><a href="/animaux"">Animaux</a></li>
@@ -22,9 +21,11 @@
 			</nav>
   </header>
   <body>
-    <h1>Fiche animal</h1>
+    <main class="page page-fiche-animal">
+    <h1 class="titre-page">Fiche animal</h1>
 
-    <ul id="liste-caractéristique"></ul>
+    <div id="fiche-animal" class="fiche-animal"></div>
+    <ul id="liste-caracteristique" class="liste-caracteristiques"></ul>
 
     <script>
 
@@ -33,47 +34,54 @@
       fetch(`/Recup_unique_animal/${id}`)
         .then((response) => response.json())
         .then((data) => {
-          const nom = document.createElement("h1");
+          const conteneur = document.getElementById("fiche-animal");
+
+          const nom = document.createElement("h2");
+          nom.className = "fiche-animal-nom";
           nom.textContent = data[1];
-          document.body.appendChild(nom);
+          conteneur.appendChild(nom);
 
           //AGE
-          const age = document.createElement("h1");
+          const age = document.createElement("h2");
+          age.className = "fiche-animal-age";
           age.textContent = data[2];
-          document.body.appendChild(age);
+          conteneur.appendChild(age);
           //ESPECE
-          const espece = document.createElement("h1");
+          const espece = document.createElement("h2");
+          espece.className = "fiche-animal-espece";
           espece.textContent = data[3];
-          document.body.appendChild(espece);
+          conteneur.appendChild(espece);
           //IMAGE
           const image = document.createElement("img");
+          image.className = "fiche-animal-image";
           image.src = data[4]; // URL de l'image
-          image.style.width = "200px";
-          document.body.appendChild(image);
+          conteneur.appendChild(image);
 
           //DANGER
           const label = document.createElement("label");
+          label.className = "fiche-animal-danger";
           label.textContent = "Dangerosité: ";
 
           const progress = document.createElement("progress");
           progress.max = 5; // danger sur 5
           progress.value = data[7];
           label.appendChild(progress);
-          document.body.appendChild(label);
+          conteneur.appendChild(label);
 
           if (data[7] <= 1) {
             progress.className = "faible";
           } else if (data[7] <= 2) {
             progress.className = "peu";
-          } else if (data[7] <= 4) {
-            progress.className = "moyen";
           } else if (data[7] <= 3) {
+            progress.className = "moyen";
+          } else {
             progress.className = "eleve";
           }
 
-           const des = document.createElement("h1");
+           const des = document.createElement("h2");
+          des.className = "fiche-animal-description";
           des.textContent = data[5];
-          document.body.appendChild(des);
+          conteneur.appendChild(des);
         }),
           //DESCRIPTION
         fetch(`/recup_propri_animal/${id}`)
@@ -81,9 +89,10 @@
         .then((data) =>{
 
           //PROPRIO
-          const pro = document.createElement("h1");
+          const pro = document.createElement("h2");
+          pro.className = "fiche-animal-proprietaire";
           pro.textContent = data[0];
-          document.body.appendChild(pro);
+          document.getElementById("fiche-animal").appendChild(pro);
         });
 
 
@@ -91,14 +100,21 @@
         fetch(`/recup_comm_animal/${id}`)
         .then((response) => response.json())
         .then((data) => {
+          const listeComm = document.getElementById("liste-caracteristique");
           data.forEach((commentaire) => {
-            const comm = document.createElement("h1");
-            comm.textContent =  commentaire;
-            document.body.appendChild(comm);
+            const item = document.createElement("li");
+            item.className = "commentaire-item";
+            listeComm.appendChild(item);
 
-            const notation = document.createElement("h1");
-            notation.textContent = commentaire.note;
-            document.body.appendChild(notation);
+            const comm = document.createElement("p");
+            comm.className = "commentaire-texte";
+            comm.textContent =  commentaire;
+            item.appendChild(comm);
+
+            const notation = document.createElement("p");
+            notation.className = "commentaire-note";
+            if (commentaire.note != null) notation.textContent = commentaire.note;
+            item.appendChild(notation);
 
           });
         });
@@ -108,17 +124,19 @@
       .then(response => response.json())
       .then(data => {
         const moy = document.createElement("p");
+        moy.className = "fiche-animal-moyenne";
         moy.textContent = `Moyenne des notes : ${data[0]}/5`;
-        document.body.appendChild(moy);
+        document.getElementById("fiche-animal").appendChild(moy);
       });
     </script>
 
     {% if 'nom_utilisateur' in session %}
-    <form action="/animal/{{ id }}/commentaire" method="POST">
+    <form action="/animal/{{ id }}/commentaire" method="POST" class="formulaire formulaire-commentaire">
       <textarea name="commentaire" texte="Votre commentaire"></textarea>
       <input type="number" name="note" min="1" max="5" texte="Note /5" />
-      <button type="submit">Envoyer</button>
+      <button type="submit" class="bouton bouton-principal">Envoyer</button>
     </form>
     {%endif%}
+    </main>
   </body>
 </html>

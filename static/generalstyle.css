@@ -1,10 +1,682 @@
-ul {
-    display:flex;
-    flex-direction: row;
-    list-style-type: none;
-    justify-content: center;
+/* ====================================================================
+   POISSON STEVE & CO — Feuille de style générale
+   Refuge animalier : ambiance colorée, chaleureuse et ludique.
+   ==================================================================== */
+
+/* ---------- Variables de design ---------- */
+:root {
+  /* Palette */
+  --corail: #FF6B5B;
+  --corail-fonce: #E8523F;
+  --corail-clair: #FFE4DE;
+  --jaune-soleil: #FFC857;
+  --jaune-clair: #FFF1D0;
+  --bleu-bassin: #2E6171;
+  --bleu-bassin-clair: #4B8A9C;
+  --creme: #FFF8EF;
+  --creme-fonce: #FFEFD9;
+  --vert-feuille: #5B8C5A;
+  --vert-feuille-clair: #E5F0E1;
+  --rouge-alerte: #D64545;
+  --texte: #2B2420;
+  --texte-doux: #6B5F55;
+  --blanc: #FFFFFF;
+
+  /* Typo */
+  --police-titre: "Baloo 2", "Fredoka", system-ui, sans-serif;
+  --police-texte: "Nunito", "Segoe UI", system-ui, sans-serif;
+
+  /* Forme */
+  --rayon-carte: 22px;
+  --rayon-bouton: 999px;
+  --rayon-champ: 14px;
+  --ombre-carte: 0 6px 18px rgba(46, 97, 113, 0.12);
+  --ombre-carte-hover: 0 12px 26px rgba(46, 97, 113, 0.18);
+  --bordure-ludique: 3px solid var(--texte);
 }
 
-li {
-    margin-left: 50px;
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap");
+
+/* ---------- Reset doux ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--police-texte);
+  color: var(--texte);
+  background-color: var(--creme);
+  background-image:
+    radial-gradient(circle at 8% 12%, var(--jaune-clair) 0, transparent 45%),
+    radial-gradient(circle at 92% 85%, var(--corail-clair) 0, transparent 40%);
+  background-attachment: fixed;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--police-titre);
+  font-weight: 700;
+  color: var(--bleu-bassin);
+  margin: 0 0 0.5em 0;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--corail-fonce);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Focus clavier visible partout (accessibilité) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--bleu-bassin-clair);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ====================================================================
+   EN-TÊTE / NAVIGATION
+   ==================================================================== */
+
+.site-header {
+  background: linear-gradient(135deg, var(--bleu-bassin) 0%, var(--bleu-bassin-clair) 100%);
+  padding: 1.1rem 1.5rem 1.6rem;
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+/* Vague décorative façon bassin, en bas du header */
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -22px;
+  height: 24px;
+  background-image: radial-gradient(circle at 10px 0, transparent 12px, var(--bleu-bassin-clair) 12px);
+  background-size: 24px 24px;
+  background-repeat: repeat-x;
+  opacity: 0.55;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.site-nav li {
+  display: inline-flex;
+}
+
+.site-nav a {
+  display: inline-block;
+  color: var(--blanc);
+  font-family: var(--police-titre);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--rayon-bouton);
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.site-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.site-nav a:active {
+  transform: translateY(0);
+}
+
+/* ====================================================================
+   STRUCTURE DE PAGE
+   ==================================================================== */
+
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+.titre-page {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.sous-titre-page {
+  font-size: 1.4rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border-left: 6px solid var(--corail);
+  padding-left: 0.6rem;
+}
+
+.message-bienvenue {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--corail-fonce);
+  background-color: var(--corail-clair);
+  border-radius: var(--rayon-bouton);
+  padding: 0.5rem 1.2rem;
+  display: inline-block;
+  margin: 0 auto 1.5rem;
+  max-width: fit-content;
+}
+
+.page-accueil .message-bienvenue {
+  display: block;
+  width: fit-content;
+}
+
+/* ====================================================================
+   BOUTONS
+   ==================================================================== */
+
+.bouton {
+  font-family: var(--police-titre);
+  font-weight: 700;
+  font-size: 1rem;
+  border: var(--bordure-ludique);
+  border-radius: var(--rayon-bouton);
+  padding: 0.7rem 1.7rem;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 0 var(--texte);
+}
+
+.bouton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--texte);
+  text-decoration: none;
+}
+
+.bouton:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--texte);
+}
+
+.bouton:disabled,
+.bouton[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 0 var(--texte);
+}
+
+.bouton-principal {
+  background-color: var(--corail);
+  color: var(--blanc);
+}
+
+.bouton-secondaire {
+  background-color: var(--jaune-soleil);
+  color: var(--texte);
+}
+
+.bouton-discret {
+  background-color: var(--blanc);
+  color: var(--texte);
+}
+
+.bouton-danger {
+  background-color: var(--rouge-alerte);
+  color: var(--blanc);
+}
+
+.bouton-toggle-mdp {
+  font-family: var(--police-texte);
+  font-weight: 700;
+  font-size: 0.82rem;
+  background-color: transparent;
+  color: var(--bleu-bassin);
+  border: 2px solid var(--bleu-bassin-clair);
+  border-radius: var(--rayon-bouton);
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  margin-top: 0.4rem;
+}
+
+.bouton-toggle-mdp:hover {
+  background-color: var(--bleu-bassin-clair);
+  color: var(--blanc);
+}
+
+.lien-secondaire,
+.lien-retour {
+  display: block;
+  text-align: center;
+  margin-top: 1.2rem;
+  font-weight: 700;
+  color: var(--bleu-bassin);
+}
+
+/* ====================================================================
+   FORMULAIRES
+   ==================================================================== */
+
+.formulaire {
+  background-color: var(--blanc);
+  border: var(--bordure-ludique);
+  border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-carte);
+  padding: 2rem;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formulaire .titre-page {
+  margin-bottom: 0.5rem;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.champ label {
+  font-weight: 700;
+  color: var(--bleu-bassin);
+  font-size: 0.92rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+textarea,
+select {
+  font-family: var(--police-texte);
+  font-size: 1rem;
+  padding: 0.65rem 0.9rem;
+  border: 2px solid var(--creme-fonce);
+  border-radius: var(--rayon-champ);
+  background-color: var(--creme);
+  color: var(--texte);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--corail);
+  background-color: var(--blanc);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+select[multiple] {
+  min-height: 130px;
+}
+
+.champ-mdp {
+  position: relative;
+}
+
+.formulaire-auth,
+.formulaire-modification {
+  max-width: 460px;
+}
+
+.formulaire .bouton {
+  align-self: center;
+  margin-top: 0.5rem;
+}
+
+.formulaire-suppression {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.formulaire-commentaire {
+  max-width: 500px;
+  margin: 2.5rem auto 0;
+}
+
+/* ====================================================================
+   CARTES (animaux, activités) — base partagée
+   ==================================================================== */
+
+.grille-animaux,
+.grille-activites {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.carte-animal,
+.carte-activite {
+  background-color: var(--blanc);
+  border: var(--bordure-ludique);
+  border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-carte);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.carte-animal::before,
+.carte-activite::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--corail), var(--jaune-soleil));
+}
+
+.carte-animal:hover,
+.carte-activite:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ombre-carte-hover);
+}
+
+.carte-animal-image,
+.carte-activite-image,
+.fiche-animal-image,
+.fiche-activite-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid var(--creme-fonce);
+}
+
+.carte-animal-nom,
+.carte-activite-lien {
+  font-size: 1.25rem;
+  color: var(--bleu-bassin);
+}
+
+.carte-activite-lien {
+  font-family: var(--police-titre);
+  font-weight: 700;
+  display: block;
+}
+
+.carte-animal-moyenne {
+  font-size: 0.85rem;
+  color: var(--texte-doux);
+  font-weight: 600;
+}
+
+.carte-animal-lien {
+  font-family: var(--police-titre);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--corail-fonce);
+  display: inline-block;
+  margin-top: 0.2rem;
+}
+
+.carte-animal-lien::after {
+  content: " →";
+}
+
+.carte-animal-age::before {
+  content: "Âge : ";
+  font-weight: 700;
+  color: var(--texte-doux);
+}
+
+.carte-animal-espece::before {
+  content: "Espèce : ";
+  font-weight: 700;
+  color: var(--texte-doux);
+}
+
+.carte-animal-age,
+.carte-animal-espece {
+  font-size: 0.95rem;
+  font-family: var(--police-texte);
+  font-weight: 400;
+  color: var(--texte);
+  margin: 0;
+}
+
+.carte-animal-description,
+.carte-activite-description,
+.fiche-activite-description,
+.fiche-animal-description {
+  font-family: var(--police-texte);
+  font-weight: 400;
+  font-size: 0.92rem;
+  color: var(--texte-doux);
+  margin: 0;
+}
+
+.carte-activite-date,
+.carte-activite-lieu {
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+  margin: 0;
+  font-weight: 600;
+}
+
+.carte-activite-date::before {
+  content: "📅 ";
+}
+
+.carte-activite-lieu::before {
+  content: "📍 ";
+}
+
+.carte-activite-danger,
+.fiche-activite-danger {
+  align-self: flex-start;
+  background-color: var(--jaune-clair);
+  color: var(--corail-fonce);
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: var(--rayon-bouton);
+  padding: 0.25rem 0.75rem;
+}
+
+/* Carte "star du jour" un peu plus mise en avant */
+.carte-star {
+  max-width: 480px;
+  margin: 1.5rem auto 0;
+  border-color: var(--corail);
+}
+
+.carte-star::before {
+  background: linear-gradient(90deg, var(--jaune-soleil), var(--corail));
+}
+
+/* ---------- Jauge de dangerosité ---------- */
+.carte-animal-danger,
+.fiche-animal-danger {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--texte-doux);
+  margin-top: 0.3rem;
+}
+
+progress {
+  width: 110px;
+  height: 12px;
+  border-radius: var(--rayon-bouton);
+  overflow: hidden;
+  border: none;
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--creme-fonce);
+  border-radius: var(--rayon-bouton);
+}
+
+progress::-webkit-progress-value {
+  border-radius: var(--rayon-bouton);
+  transition: width 0.3s ease;
+}
+
+progress.faible::-webkit-progress-value { background-color: var(--vert-feuille); }
+progress.peu::-webkit-progress-value { background-color: var(--jaune-soleil); }
+progress.moyen::-webkit-progress-value { background-color: var(--corail); }
+progress.eleve::-webkit-progress-value { background-color: var(--rouge-alerte); }
+
+progress.faible { color: var(--vert-feuille); }
+progress.peu { color: var(--jaune-soleil); }
+progress.moyen { color: var(--corail); }
+progress.eleve { color: var(--rouge-alerte); }
+
+/* Firefox */
+progress.faible::-moz-progress-bar { background-color: var(--vert-feuille); }
+progress.peu::-moz-progress-bar { background-color: var(--jaune-soleil); }
+progress.moyen::-moz-progress-bar { background-color: var(--corail); }
+progress.eleve::-moz-progress-bar { background-color: var(--rouge-alerte); }
+
+/* ====================================================================
+   MINI-CARTES (page compte : animaux/activités de l'utilisateur)
+   ==================================================================== */
+
+.grille-mini-cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mini-carte {
+  background-color: var(--blanc);
+  border: 2px solid var(--creme-fonce);
+  border-radius: 16px;
+  padding: 0.8rem;
+  text-align: center;
+  box-shadow: var(--ombre-carte);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mini-carte-nom {
+  font-size: 1rem;
+  margin: 0;
+  color: var(--bleu-bassin);
+  order: 2;
+}
+
+.mini-carte-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--creme-fonce);
+  background-color: var(--creme);
+  order: 1;
+}
+
+/* ====================================================================
+   PAGE COMPTE
+   ==================================================================== */
+
+.carte-infos-compte {
+  background-color: var(--blanc);
+  border: var(--bordure-ludique);
+  border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-carte);
+  padding: 1.6rem 2rem;
+  max-width: 520px;
+  margin: 0 auto 2rem;
+}
+
+.carte-infos-compte p {
+  margin: 0.4rem 0;
+}
+
+.info-label {
+  font-weight: 700;
+  color: var(--bleu-bassin);
+}
+
+.actions-compte {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
+}
+
+/* ====================================================================
+   RESPONSIVE
+   ==================================================================== */
+
+@media (max-width: 600px) {
+  .site-nav ul {
+    gap: 0.3rem;
+  }
+
+  .site-nav a {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.85rem;
+  }
+
+  .formulaire {
+    padding: 1.4rem;
+  }
+
+  .actions-compte {
+    flex-direction: column;
+  }
+
+  .actions-compte .bouton {
+    text-align: center;
+  }
 }
