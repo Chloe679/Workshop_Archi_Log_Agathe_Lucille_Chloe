@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/generalstyle.css">
+    <title>Créer une activité</title>
+  </head>
+  <header>
+    <nav>
+				<ul>
+					<li><a href="/">Accueil</a></li>
+					<li><a href="/animaux"">Animaux</a></li>
+					<li><a href="/activites">Activites</a></li>
+					<li><a href="/connexion">Connexion</a></li>
+				</ul>
+			</nav>
+  </header>
+  <body>
+    <h1>Créer une fiche pour l'animal</h1>
+    {% if 'nom_utilisateur' in session %}
+     <form action ="/create_animal" method="POST">
+        <label for="nom_animal">Nom de l'animal:</label>
+        <input type="text" name="nom_animal" required>
+        <label for="age_animal">Age de l'animal</label>
+        <input type="number" name="age_animal" required>
+        <label for="type_animal">Espece de l'animal:</label>
+        <input type="text" name="type_animal" required>
+        <label for="url_image_animal">Photo</label>
+        <input type="text" name="url_image_animal" required>
+        <label for="description_animal">Description</label>
+        <textarea name="description_animal" required></textarea>
+        <label for="danger">Niveau de danger estimé</label>
+        <input type="number" name="danger" min="1" max="5" required>
+
+      <button id ="Submit" type="submit">Créer la fiche animal</button>
+     </form>
+     {% endif %}
+
+    <script>
+      //formulaire
+        const boutonSeConnecter = document.querySelector("button#SendForm");
+
+         const form = document.querySelector("form");
+        form.addEventListener("submit", handleFormSubmit); //Si le form est envoyé
+
+        function handleFormSubmit(event) {
+            console.log("Form submit event.");
+            if (form.checkValidity() === false) {
+                console.log("Les valeurs du form ne sont pas respecté");
+                event.preventDefault(); //N'envoie pas le formulaire
+            } else {
+                boutonSeConnecter.disabled = "true";
+                form.submit();
+            }
+        }
+    </script>
+  </body>
+</html>

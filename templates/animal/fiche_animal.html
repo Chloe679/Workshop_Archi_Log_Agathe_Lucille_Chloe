@@ -22,6 +22,7 @@
     <ul id="liste-caractéristique"></ul>
 
     <script>
+
        const id = {{ id }}; // erreur qui marche quand même (vscode ne détecte pas)
       //possible car id transmis avec la route
       fetch(`/Recup_unique_animal/${id}`)
@@ -96,6 +97,15 @@
 
           });
         });
+
+            //MOYENNE NOTE
+        fetch(`/moyenne_animal/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        const moy = document.createElement("p");
+        moy.textContent = `Moyenne des notes : ${data[0]}/5`;
+        document.body.appendChild(moy);
+      });
     </script>
 
     {% if 'nom_utilisateur' in session %}

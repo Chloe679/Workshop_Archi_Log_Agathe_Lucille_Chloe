@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template,request, redirect, url_for, flash, session
-from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire
+from app.services.animal_service import Affiche_Animal, get_unique_animal,get_proprio_animal,find_user_of_animal,get_comm_animal,get_commentaire,addFiche,affiche_moyenne
 from app.services.activite_service import transferActivites, addActivite, getFicheActivite, transferAnimal, linkAnimal, removeActivite
 from app.services.user_service import estCeQueLeBougExiste, ajouterLeBougDansLaBDD, ModifierLesInfosDuBoug
 from werkzeug.security import check_password_hash
@@ -220,5 +220,42 @@ def affiche_create_comm(animal_id):
 def recup_activites():
     return jsonify(transferActivites())
 
+@main.route('/create_animal', methods=['GET','POST'])
+
+def AfficheCreateFiche():
+    if request.method =='GET':
+        return render_template("animal/create_animal.html")
+    
+    try:
+
+        id_user_connected = session['id_utilisateur']; #A remplacer avec l'id de l'utilisateur connecté quand on aura merge
+
+        id_act = addFiche(
+            nom_animal = request.form.get("nom_animal"),
+            age_animal = request.form.get("age_animal"),
+            type_animal = request.form.get("type_animal"),
+            url_image_animal = request.form.get("url_image_animal"),
+            description_animal = request.form.get("description_animal"),
+            id_user = id_user_connected,
+            danger = request.form.get("danger")
+        )
+        flash("Fiche créée.", "success")
+        return redirect(url_for('AffichePageAnimal'))
+    
+    except ValueError as error:
+        flash(str(error), "error")
+        return render_template("animal/create_animal.html")
+
+#route pour aller page créer fiche animal
+@main.route('/animal')
+def AffichePageAnimal():
+    return render_template("animal/accueil_animal.html")
+
+@main.route('/moyenne_animal/<int:animal_id>')
+def moyenne_animal(animal_id):
+    return jsonify(affiche_moyenne(animal_id))
+
+
 if __name__ == '__main__':
     main.run(debug=True)
+

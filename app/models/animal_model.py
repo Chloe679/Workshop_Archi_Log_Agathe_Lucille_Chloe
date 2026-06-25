@@ -41,3 +41,20 @@ def create_commentaire(commentaire,note,id_user,id_animal):
     mydb.commit()
     mycursor.close()
     mydb.close()
+
+def create_fiche(nom_animal,age_animal,type_animal,url_image_animal,description_animal,id_user,danger):
+    mydb = get_connection()
+    mycursor=mydb.cursor()
+    sql ='''INSERT INTO animal (nom_animal,age_animal,type_animal,url_image_animal,description_animal,id_user, danger) VALUES (%s,%s,%s,%s,%s,%s,%s)'''
+    values=(nom_animal,age_animal,type_animal,url_image_animal,description_animal,id_user,danger)
+    mycursor.execute(sql, values)
+    mydb.commit()
+    mycursor.close()
+    mydb.close()
+
+def note_moy(id_animal):
+    mydb = get_connection()
+    mycursor=mydb.cursor()
+    mycursor.execute('''SELECT AVG (note) FROM commentaire JOIN animal ON animal.id_animal=commentaire.id_animal WHERE animal.id_animal  = %s ''', (id_animal,)
+    )
+    return mycursor.fetchall()
