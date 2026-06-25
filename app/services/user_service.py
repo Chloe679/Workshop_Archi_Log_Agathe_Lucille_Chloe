@@ -1,4 +1,4 @@
-from app.models.user_model import RecupererLesInfosDuBoug, InscriptionDuBoug, ModifierLesInfosDuBougDansLaBDD
+from app.models.user_model import RecupererLesInfosDuBoug, InscriptionDuBoug, ModifierLesInfosDuBougDansLaBDD, RecupererLesAnimauxDuBougDansLaBDD, RecupererLesActivitesDuBougDansLaBDD
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -27,4 +27,12 @@ def ModifierLesInfosDuBoug(id_user, pseudoAncien, mdpAncien, prenomAncien, nomAn
     else:
         mdp_hache_Nouveau = mdpAncien
     resultat = ModifierLesInfosDuBougDansLaBDD(id_user, pseudoAncien, mdpAncien, prenomAncien, nomAncien, pseudoNouveau, mdp_hache_Nouveau, prenomNouveau, nomNouveau)
+    return resultat
+
+def RecupererLesAnimauxDuBoug(id_user):
+    resultat = RecupererLesAnimauxDuBougDansLaBDD(id_user)
+    return resultat
+
+def RecupererLesActivitesDuBoug(id_user):
+    resultat = RecupererLesActivitesDuBougDansLaBDD(id_user)
     return resultat
