@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="/static/generalstyle.css">
     <title>Accueil</title>
   </head>
-  <header>
-    <nav>
+  <header class="site-header">
+    <nav class="site-nav">
 				<ul>
 					<li><a href="/">Accueil</a></li>
 					<li><a href="/animaux"">Animaux</a></li>
@@ -20,57 +20,68 @@
 			</nav>
   </header>
   <body>
+    <main class="page page-accueil">
     {% if 'nom_utilisateur' in session %}
-      <p>Bonjour {{ session['nom_utilisateur'] }} !</p>
+      <p class="message-bienvenue">Bonjour {{ session['nom_utilisateur'] }} !</p>
     {% endif %}
-    <h1>La star du jour: </h1>
-    <ul id="liste-animaux"></ul>
+    <h1 class="titre-page">La star du jour: </h1>
+    <ul id="liste-animaux" class="grille-animaux"></ul>
 
     <script>
   fetch("/affichage_random")
     .then((response) => response.json())
     .then((animal) => {
-            const nom = document.createElement("h1");
+            const carte = document.createElement("div");
+            carte.className = "carte-animal carte-star";
+            document.getElementById("liste-animaux").appendChild(carte);
+
+            const nom = document.createElement("h2");
+            nom.className = "carte-animal-nom";
             nom.textContent = animal[1]; 
-            document.body.appendChild(nom);
+            carte.appendChild(nom);
 
   //MOYENNE
   fetch(`/moyenne_animal/${animal[0]}`)  //  animal[0]=id
     .then(response => response.json())
     .then(moyData => {
       const moy = document.createElement("p");
+      moy.className = "carte-animal-moyenne";
       moy.textContent = `Moyenne des notes : ${moyData[0]}/5`;
       nom.appendChild(moy);  
     });
     
 //LIEN DYNAMIQUE
       const lien = document.createElement("a");
+      lien.className = "carte-animal-lien";
       lien.href = `/animal/${animal[0]}`; //on cree le lien animal/3 qui sera reçu par flask (cf route)
       lien.textContent = animal[1];
-      document.body.appendChild(lien);
+      carte.appendChild(lien);
 //AGE
-            const age = document.createElement("h1");
+            const age = document.createElement("h2");
+            age.className = "carte-animal-age";
             age.textContent = animal[2];
-            document.body.appendChild(age);
+            carte.appendChild(age);
 //ESPECE
-            const espece = document.createElement("h1");
+            const espece = document.createElement("h2");
+            espece.className = "carte-animal-espece";
             espece.textContent = animal[3];
-            document.body.appendChild(espece);
+            carte.appendChild(espece);
 //IMAGE
             const image = document.createElement("img");
+            image.className = "carte-animal-image";
             image.src = animal[4]; // URL de l'image 
-            image.style.width = "200px"; 
-            document.body.appendChild(image);
+            carte.appendChild(image);
 
 //DANGER
             const label = document.createElement("label");
+            label.className = "carte-animal-danger";
             label.textContent = "Dangerosité: ";
 
             const progress = document.createElement("progress");
             progress.max = 5; // danger sur 5
             progress.value = animal[7]; 
             label.appendChild(progress);
-            document.body.appendChild(label);
+            carte.appendChild(label);
 
             if (animal[7]<=1){
               progress.className = "faible";
@@ -78,20 +89,23 @@
             else if (animal[7]<=2){
               progress.className = "peu";
             }
-            else if (animal[7]<=4){
+            else if (animal[7]<=3){
               progress.className = "moyen";
             }
-            else if (animal[7]<=3){
+            else {
               progress.className = "eleve";
             }
 
 
           //DESCRIPTION
-            const des = document.createElement("h1");
+            const des = document.createElement("h2");
+            des.className = "carte-animal-description";
             des.textContent = animal[5];
-            document.body.appendChild(des);
+            carte.appendChild(des);
 
           });
     </script>
+    </main>
+  </body>
   </body>
 </html>

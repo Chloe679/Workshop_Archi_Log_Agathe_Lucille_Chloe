@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="/static/generalstyle.css">
     <title>Créer une activité</title>
   </head>
-  <header>
-      <nav>
+  <header class="site-header">
+      <nav class="site-nav">
           <ul>
               <li><a href="/">Accueil</a></li>
               <li><a href="/animaux"">Animaux</a></li>
@@ -20,36 +20,51 @@
       </nav>
   </header>
   <body>
-    <h1>Créer une activité</h1>
+    <main class="page page-create-activite">
+    <h1 class="titre-page">Créer une activité</h1>
     
-     <form action ="create_activite" method="POST">
+     <form action ="create_activite" method="POST" class="formulaire formulaire-activite">
+      <div class="champ">
       <label for="titre">Titre activité</label>
-      <input type="text" id="titre" name="titre_act" required> <br><br>
+      <input type="text" id="titre" name="titre_act" required>
+      </div>
 
+      <div class="champ">
       <label for="date">Date</label>
-      <input type="date" id="date" name="date_act" required><br><br>
+      <input type="date" id="date" name="date_act" required>
+      </div>
 
+      <div class="champ">
       <label for="lieu">Lieu</label>
-      <input type="text" id="lieu" name="lieu_act" required><br><br>
+      <input type="text" id="lieu" name="lieu_act" required>
+      </div>
 
+      <div class="champ">
       <label for="description">Description</label>
-      <textarea id="description" name="description_act" required></textarea><br><br>
+      <textarea id="description" name="description_act" required></textarea>
+      </div>
 
+      <div class="champ">
       <label for="url_image">URL Image</label>
-      <input type="text" id="url_image" name="url_image_act" required><br><br>
+      <input type="text" id="url_image" name="url_image_act" required>
+      </div>
 
+      <div class="champ">
       <label for="dangerosite_max">Dangerosite Max</label>
-      <input type="number" id="danger_max" name="dangerosite_max_act" required><br><br>
+      <input type="number" id="danger_max" name="dangerosite_max_act" required>
+      </div>
 
+      <div class="champ">
       <label for="animaux">Animal participant</label>
       <select id="animaux" name="animaux" multiple>
         {% for animal in animaux%}
       <option value="{{animal[0]}}">{{animal[1]}}</option>
       {% endfor%}
       </select>
+      </div>
 
       
-      <button id ="SendForm" type="submit">Créer l'activité</button>
+      <button id ="SendForm" type="submit" class="bouton bouton-principal">Créer l'activité</button>
 
      </form>
 
@@ -71,5 +86,6 @@
             }
         }
     </script>
+    </main>
   </body>
 </html>
