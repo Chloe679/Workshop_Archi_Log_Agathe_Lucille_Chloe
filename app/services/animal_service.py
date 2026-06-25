@@ -14,10 +14,6 @@ def get_proprio_animal(animal_id):
 
 def get_comm_animal(animal_id):
     return find_commentaire(animal_id)
-
-def get_comm_animal(animal_id):
-    resultats = find_commentaire(animal_id)
-    return [comm[0] for comm in resultats]  # on extrait le texte de chaque tuple
    
 def get_commentaire(commentaire,note,id_user,id_animal):
     return create_commentaire(commentaire,note,id_user,id_animal)
